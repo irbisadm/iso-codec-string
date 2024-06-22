@@ -1,0 +1,1 @@
+const version = '__lib_version__'; // Version will be injected on the build
