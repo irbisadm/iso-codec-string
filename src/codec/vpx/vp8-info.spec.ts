@@ -1,12 +1,6 @@
-import {
-  Vp8Info,
-  VpxBitDepth,
-  VpxChromaSubsampling,
-  VpxColourPrimaries,
-  VpxLevel,
-  VpxProfile,
-  VpxVideoFullRangeFlag
-} from "./vpx";
+import {ColourPrimaries} from "../iso-23001-8_2016";
+import {Vp8Info} from "./vp8-info";
+import {VpxBitDepth, VpxChromaSubsampling, VpxLevel, VpxProfile, VpxVideoFullRangeFlag} from "./enums";
 
 describe('VP8 codecs tests', () => {
   it('without settings', () => {
@@ -14,7 +8,7 @@ describe('VP8 codecs tests', () => {
     expect(codecInfo.profile).toBe(VpxProfile.PROFILE_0);
     expect(codecInfo.level).toBe(VpxLevel.UNDEFINED);
     expect(codecInfo.chromaSubsampling).toBe(VpxChromaSubsampling.CS_420_COLOCATED_0_0);
-    expect(codecInfo.colourPrimaries).toBe(VpxColourPrimaries.BT_709);
+    expect(codecInfo.colourPrimaries).toBe(ColourPrimaries.BT_709);
     expect(''+codecInfo).toBe('vp08');
   })
   it('vp0 full box', () => {

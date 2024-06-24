@@ -1,117 +1,15 @@
-enum VpxCodec {
-  VP8 = 'vp08',
-  VP9 = 'vp09',
-}
+import {CodecInfo} from "../codec-info";
+import {ColourPrimaries, TransferCharacteristics, MatrixCoefficients} from "../iso-23001-8_2016";
 
-export enum VpxProfile {
-  UNSET = -1,
-  PROFILE_0,
-  PROFILE_1,
-  PROFILE_2,
-  PROFILE_3,
-}
+import {VpxBitDepth, VpxChromaSubsampling, VpxLevel, VpxProfile, VpxVideoFullRangeFlag} from "./enums";
+import {VpxCodec} from "./codec";
 
-export enum VpxLevel {
-  UNDEFINED = '0',
-  LEVEL_1 = '10',
-  LEVEL_1_1 = '11',
-  LEVEL_2 = '20',
-  LEVEL_2_1 = '21',
-  LEVEL_3 = '30',
-  LEVEL_3_1 = '31',
-  LEVEL_4 = '40',
-  LEVEL_4_1 = '41',
-  LEVEL_5 = '50',
-  LEVEL_5_1 = '51',
-  LEVEL_5_2 = '52',
-  LEVEL_6 = '60',
-  LEVEL_6_1 = '61',
-  LEVEL_6_2 = '62',
-}
-
-export enum VpxBitDepth {
-  UNSET = -1,
-  BIT_DEPTH_8 = 8,
-  BIT_DEPTH_10 = 10,
-  BIT_DEPTH_12 = 12,
-}
-
-export enum VpxChromaSubsampling {
-  UNSET = -1,
-  CS_420_VERTICAL = 0,
-  CS_420_COLOCATED_0_0 = 1,
-  CS_422 = 2,
-  CS_444 = 3,
-}
-
-
-export enum VpxColourPrimaries {
-  BT_709 = 1,
-  UNSPECIFIED = 2,
-  BT_470M = 4,
-  BT_470BG = 5,
-  SMPTE_170 = 6,
-  SMPTE_240 = 7,
-  GENERIC_FILM = 8,
-  BT_2020 = 9,
-  SMPTE_428 = 10,
-  SMPTE_431 = 11,
-  SMPTE_432 = 12,
-  EBU_3213E = 22,
-}
-
-export enum VpxTransferCharacteristics {
-  BT_709 = 1,
-  UNSPECIFIED = 2,
-  BT_470M = 4,
-  BT_470BG = 5,
-  SMPTE_170 = 6,
-  SMPTE_240 = 7,
-  LINEAR = 8,
-  LOG_100 = 9,
-  LOG_100_SQRT = 10,
-  IEC_61966_2_4 = 11,
-  BT_1361 = 12,
-  SRGB = 13,
-  BT_2020_10_BIT = 14,
-  BT_2020_12_BIT = 15,
-  SMPTE_2084 = 16,
-  SMPTE_428 = 17,
-  ARIB_STD_B67 = 18,
-}
-
-export enum VpxMatrixCoefficients {
-  RGB = 0,
-  BT_709 = 1,
-  UNSPECIFIED = 2,
-  BT_470M = 4,
-  BT_470BG = 5,
-  SMPTE_170 = 6,
-  SMPTE_240 = 7,
-  YCOCG = 8,
-  BT_2020_NCL = 9,
-  BT_2020_CL = 10,
-  SMPTE_2085 = 11,
-  CHROMAT_NCL = 12,
-  CHROMAT_CL = 13,
-  ITP_1667 = 14,
-  SMPTE_428 = 15,
-  SMPTE_431 = 16,
-  SMPTE_432 = 17,
-  EBU_3213E = 18,
-}
-
-export enum VpxVideoFullRangeFlag {
-  LEGAL = 0,
-  FULL = 1,
-}
-
-abstract class VpXInfo {
+export abstract class VpXInfo extends CodecInfo {
   private DEFAULTS = {
     chromaSubsampling: VpxChromaSubsampling.CS_420_COLOCATED_0_0,
-    colourPrimaries: VpxColourPrimaries.BT_709,
-    transferCharacteristics: VpxTransferCharacteristics.BT_709,
-    matrixCoefficients: VpxMatrixCoefficients.BT_709,
+    colourPrimaries: ColourPrimaries.BT_709,
+    transferCharacteristics: TransferCharacteristics.BT_709,
+    matrixCoefficients: MatrixCoefficients.BT_709,
     videoFullRangeFlag: VpxVideoFullRangeFlag.LEGAL,
   }
 
@@ -119,18 +17,19 @@ abstract class VpXInfo {
   protected _level: VpxLevel = VpxLevel.UNDEFINED;
   protected _bitDepth: VpxBitDepth = VpxBitDepth.UNSET;
   protected _chromaSubsampling: VpxChromaSubsampling = this.DEFAULTS.chromaSubsampling;
-  protected _colourPrimaries: VpxColourPrimaries = this.DEFAULTS.colourPrimaries;
+  protected _colourPrimaries: ColourPrimaries = this.DEFAULTS.colourPrimaries;
   protected _transferCharacteristics = this.DEFAULTS.transferCharacteristics;
   protected _matrixCoefficients = this.DEFAULTS.matrixCoefficients;
   protected _videoFullRangeFlag = this.DEFAULTS.videoFullRangeFlag;
 
 
-
-  constructor(private codecGeneration: VpxCodec) {}
+  protected constructor(private codecGeneration: VpxCodec) {
+    super();
+  }
 
   toString(withoutDefaults = true) {
-    if(this._profile === VpxProfile.UNSET || this._bitDepth === VpxBitDepth.UNSET){
-      if(this.codecGeneration === VpxCodec.VP8){
+    if (this._profile === VpxProfile.UNSET || this._bitDepth === VpxBitDepth.UNSET) {
+      if (this.codecGeneration === VpxCodec.VP8) {
         return this.codecGeneration;
       }
       throw new Error('Profile, level and bit depth must be set');
@@ -177,9 +76,11 @@ abstract class VpXInfo {
       .join('.');
   }
 
+
   get profile(): VpxProfile {
     return this._profile;
   }
+
   set profile(profile: VpxProfile) {
     const limitations: Record<VpxProfile, { bitDepth: VpxBitDepth[], chromaSubsampling: VpxChromaSubsampling[] }> = {
       [VpxProfile.PROFILE_0]: {
@@ -204,10 +105,10 @@ abstract class VpXInfo {
       }
     }
     const profileLimits = limitations[profile];
-    if (!profileLimits.bitDepth.includes(this._bitDepth)){
+    if (!profileLimits.bitDepth.includes(this._bitDepth)) {
       throw new Error(`Profile ${profile} is not compatible with bit depth ${this._bitDepth}`);
     }
-    if (!profileLimits.chromaSubsampling.includes(this._chromaSubsampling)){
+    if (!profileLimits.chromaSubsampling.includes(this._chromaSubsampling)) {
       throw new Error(`Profile ${profile} is not compatible with chroma subsampling ${this._chromaSubsampling}`);
     }
     this._profile = profile;
@@ -216,15 +117,16 @@ abstract class VpXInfo {
   get bitDepth(): VpxBitDepth {
     return this._bitDepth;
   }
+
   set bitDepth(bitDepth: VpxBitDepth) {
-    const limitations:Record<VpxBitDepth, VpxProfile[]> = {
+    const limitations: Record<VpxBitDepth, VpxProfile[]> = {
       [VpxBitDepth.BIT_DEPTH_8]: [VpxProfile.PROFILE_0, VpxProfile.PROFILE_1, VpxProfile.UNSET],
       [VpxBitDepth.BIT_DEPTH_10]: [VpxProfile.PROFILE_2, VpxProfile.PROFILE_3, VpxProfile.UNSET],
       [VpxBitDepth.BIT_DEPTH_12]: [VpxProfile.PROFILE_2, VpxProfile.PROFILE_3, VpxProfile.UNSET],
       [VpxBitDepth.UNSET]: [VpxProfile.UNSET, VpxProfile.PROFILE_0, VpxProfile.PROFILE_1, VpxProfile.PROFILE_2, VpxProfile.PROFILE_3]
     }
     const bitDepthLimits = limitations[bitDepth];
-    if(!bitDepthLimits.includes(this._profile)){
+    if (!bitDepthLimits.includes(this._profile)) {
       throw new Error(`Bit depth ${bitDepth} is not compatible with profile ${this._profile}`);
     }
     this._bitDepth = bitDepth;
@@ -233,8 +135,9 @@ abstract class VpXInfo {
   get chromaSubsampling(): VpxChromaSubsampling {
     return this._chromaSubsampling;
   }
+
   set chromaSubsampling(chromaSubsampling: VpxChromaSubsampling) {
-    const limitations:Record<VpxChromaSubsampling, VpxProfile[]> = {
+    const limitations: Record<VpxChromaSubsampling, VpxProfile[]> = {
       [VpxChromaSubsampling.CS_420_COLOCATED_0_0]: [VpxProfile.PROFILE_0, VpxProfile.PROFILE_2, VpxProfile.UNSET],
       [VpxChromaSubsampling.CS_420_VERTICAL]: [VpxProfile.PROFILE_0, VpxProfile.PROFILE_2, VpxProfile.UNSET],
       [VpxChromaSubsampling.CS_422]: [VpxProfile.PROFILE_1, VpxProfile.PROFILE_3, VpxProfile.UNSET],
@@ -242,7 +145,7 @@ abstract class VpXInfo {
       [VpxChromaSubsampling.UNSET]: [VpxProfile.UNSET, VpxProfile.PROFILE_0, VpxProfile.PROFILE_1, VpxProfile.PROFILE_2, VpxProfile.PROFILE_3]
     }
     const chromaSubsamplingLimits = limitations[chromaSubsampling];
-    if(!chromaSubsamplingLimits.includes(this._profile)){
+    if (!chromaSubsamplingLimits.includes(this._profile)) {
       throw new Error(`Chroma subsampling ${chromaSubsampling} is not compatible with profile ${this._profile}`);
     }
     this._chromaSubsampling = chromaSubsampling;
@@ -251,57 +154,76 @@ abstract class VpXInfo {
   get level(): VpxLevel {
     return this._level;
   }
+
   set level(level: VpxLevel) {
     this._level = level;
   }
 
-  get colourPrimaries(): VpxColourPrimaries {
+  get colourPrimaries(): ColourPrimaries {
     return this._colourPrimaries;
   }
-  set colourPrimaries(colourPrimaries: VpxColourPrimaries) {
+
+  set colourPrimaries(colourPrimaries: ColourPrimaries) {
     this._colourPrimaries = colourPrimaries;
   }
 
-  get transferCharacteristics(): VpxTransferCharacteristics {
+  get transferCharacteristics(): TransferCharacteristics {
     return this._transferCharacteristics;
   }
-  set transferCharacteristics(transferCharacteristics: VpxTransferCharacteristics) {
+
+  set transferCharacteristics(transferCharacteristics: TransferCharacteristics) {
     this._transferCharacteristics = transferCharacteristics;
   }
 
-  get matrixCoefficients(): VpxMatrixCoefficients {
+  get matrixCoefficients(): MatrixCoefficients {
     return this._matrixCoefficients;
   }
-  set matrixCoefficients(matrixCoefficients: VpxMatrixCoefficients) {
+
+  set matrixCoefficients(matrixCoefficients: MatrixCoefficients) {
     this._matrixCoefficients = matrixCoefficients;
   }
 
   get videoFullRangeFlag(): VpxVideoFullRangeFlag {
     return this._videoFullRangeFlag;
   }
+
   set videoFullRangeFlag(videoFullRangeFlag: VpxVideoFullRangeFlag) {
     this._videoFullRangeFlag = videoFullRangeFlag;
   }
-}
 
-export class Vp8Info extends VpXInfo {
-  constructor() {
-    super(VpxCodec.VP8);
-  }
+  protected fromBox(box: string[]) {
+    // <sample entry 4CC>.<profile>.<level>.<bitDepth>.<chromaSubsampling>.
+    // <colourPrimaries>.<transferCharacteristics>.<matrixCoefficients>.
+    // <videoFullRangeFlag>
 
-  set profile(profile: VpxProfile) {
-    if (profile !== VpxProfile.PROFILE_0) {
-      throw new Error('VP8 only supports a profile value of 0.');
+    if (box[1]) {
+      this.profile = parseInt(box[1]) as VpxProfile;
     }
-    super.profile = profile;
-  }
-  get profile() {
-    return this._profile;
-  }
-}
+    if (box[2]) {
+      this.level = parseInt(box[2]).toString() as VpxLevel;
+    }
+    if (box[3]) {
+      this.bitDepth = parseInt(box[3]) as VpxBitDepth;
+    }
+    if (box[4]) {
+      this.chromaSubsampling = parseInt(box[4]) as VpxChromaSubsampling;
+    }
+    if (box[5]) {
+      this.colourPrimaries = parseInt(box[5]) as ColourPrimaries;
+    }
+    if (box[6]) {
+      this.transferCharacteristics = parseInt(box[6]) as TransferCharacteristics;
+    }
+    if (box[7]) {
+      this.matrixCoefficients = parseInt(box[7]) as MatrixCoefficients;
+    }
+    if (box[8]) {
+      this.videoFullRangeFlag = parseInt(box[8]) as VpxVideoFullRangeFlag;
+    }
 
-export class Vp9Info extends VpXInfo {
-  constructor() {
-    super(VpxCodec.VP9);
+    if (box.length > 9) {
+      throw new Error('Invalid box');
+    }
+
   }
 }
