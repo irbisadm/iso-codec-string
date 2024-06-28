@@ -1,7 +1,7 @@
 import {CodecInfo} from "../codec-info";
-import {ColourPrimaries, TransferCharacteristics, MatrixCoefficients} from "../iso-23001-8_2016";
+import {ColourPrimaries, TransferCharacteristics, MatrixCoefficients, VideoFullRangeFlag} from "../iso-23001-8_2016";
 
-import {VpxBitDepth, VpxChromaSubsampling, VpxLevel, VpxProfile, VpxVideoFullRangeFlag} from "./enums";
+import {VpxBitDepth, VpxChromaSubsampling, VpxLevel, VpxProfile} from "./enums";
 import {VpxCodec} from "./codec";
 
 export abstract class VpXInfo extends CodecInfo {
@@ -10,7 +10,7 @@ export abstract class VpXInfo extends CodecInfo {
     colourPrimaries: ColourPrimaries.BT_709,
     transferCharacteristics: TransferCharacteristics.BT_709,
     matrixCoefficients: MatrixCoefficients.BT_709,
-    videoFullRangeFlag: VpxVideoFullRangeFlag.LEGAL,
+    videoFullRangeFlag: VideoFullRangeFlag.LEGAL,
   }
 
   protected _profile: VpxProfile = VpxProfile.PROFILE_0;
@@ -21,7 +21,6 @@ export abstract class VpXInfo extends CodecInfo {
   protected _transferCharacteristics = this.DEFAULTS.transferCharacteristics;
   protected _matrixCoefficients = this.DEFAULTS.matrixCoefficients;
   protected _videoFullRangeFlag = this.DEFAULTS.videoFullRangeFlag;
-
 
   protected constructor(private codecGeneration: VpxCodec) {
     super();
@@ -183,11 +182,11 @@ export abstract class VpXInfo extends CodecInfo {
     this._matrixCoefficients = matrixCoefficients;
   }
 
-  get videoFullRangeFlag(): VpxVideoFullRangeFlag {
+  get videoFullRangeFlag(): VideoFullRangeFlag {
     return this._videoFullRangeFlag;
   }
 
-  set videoFullRangeFlag(videoFullRangeFlag: VpxVideoFullRangeFlag) {
+  set videoFullRangeFlag(videoFullRangeFlag: VideoFullRangeFlag) {
     this._videoFullRangeFlag = videoFullRangeFlag;
   }
 
@@ -218,7 +217,7 @@ export abstract class VpXInfo extends CodecInfo {
       this.matrixCoefficients = parseInt(box[7]) as MatrixCoefficients;
     }
     if (box[8]) {
-      this.videoFullRangeFlag = parseInt(box[8]) as VpxVideoFullRangeFlag;
+      this.videoFullRangeFlag = parseInt(box[8]) as VideoFullRangeFlag;
     }
 
     if (box.length > 9) {
