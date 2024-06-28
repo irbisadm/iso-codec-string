@@ -39,7 +39,3 @@ export enum VpxProfile {
   PROFILE_3,
 }
 
-export enum VpxVideoFullRangeFlag {
-  LEGAL = 0,
-  FULL = 1,
-}
