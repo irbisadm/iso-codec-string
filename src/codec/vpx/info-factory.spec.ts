@@ -1,6 +1,6 @@
 import {vpxInfoFactory} from "./info-factory";
-import {VpxBitDepth, VpxChromaSubsampling, VpxLevel, VpxProfile, VpxVideoFullRangeFlag} from "./enums";
-import {ColourPrimaries, MatrixCoefficients, TransferCharacteristics} from "../iso-23001-8_2016";
+import {VpxBitDepth, VpxChromaSubsampling, VpxLevel, VpxProfile} from "./enums";
+import {ColourPrimaries, MatrixCoefficients, TransferCharacteristics, VideoFullRangeFlag} from "../iso-23001-8_2016";
 
 describe('VpX string parser',()=>{
   it('should parse vp8',()=>{
@@ -32,6 +32,6 @@ describe('VpX string parser',()=>{
     expect(info.colourPrimaries).toBe(ColourPrimaries.BT_2020);
     expect(info.transferCharacteristics).toBe(TransferCharacteristics.SMPTE_2084);
     expect(info.matrixCoefficients).toBe(MatrixCoefficients.BT_2020_NCL)
-    expect(info.videoFullRangeFlag).toBe(VpxVideoFullRangeFlag.FULL);
+    expect(info.videoFullRangeFlag).toBe(VideoFullRangeFlag.FULL);
   })
 })
