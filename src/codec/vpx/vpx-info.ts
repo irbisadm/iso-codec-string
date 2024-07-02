@@ -16,17 +16,106 @@ const VPX_DEFAULTS = {
 export abstract class VpXInfo extends CodecInfo {
 
 
-  protected _profile: VpxProfile = VpxProfile.PROFILE_0;
-  protected _level: VpxLevel = VpxLevel.UNDEFINED;
-  protected _bitDepth: VpxBitDepth = VpxBitDepth.UNSET;
-  protected _chromaSubsampling: VpxChromaSubsampling = VPX_DEFAULTS.chromaSubsampling;
-  protected _colourPrimaries: ColourPrimaries = VPX_DEFAULTS.colourPrimaries;
-  protected _transferCharacteristics = VPX_DEFAULTS.transferCharacteristics;
-  protected _matrixCoefficients = VPX_DEFAULTS.matrixCoefficients;
-  protected _videoFullRangeFlag = VPX_DEFAULTS.videoFullRangeFlag;
-
   protected constructor(private codecGeneration: VpxCodec) {
     super();
+  }
+
+  protected _profile: VpxProfile = VpxProfile.PROFILE_0;
+
+  get profile(): VpxProfile {
+    return this._profile;
+  }
+
+  set profile(profile: VpxProfile) {
+
+    const profileLimits = profileLimitations[profile];
+    if (!profileLimits.bitDepth.includes(this._bitDepth)) {
+      throw new Error(`Profile ${profile} is not compatible with bit depth ${this._bitDepth}`);
+    }
+    if (!profileLimits.chromaSubsampling.includes(this._chromaSubsampling)) {
+      throw new Error(`Profile ${profile} is not compatible with chroma subsampling ${this._chromaSubsampling}`);
+    }
+    this._profile = profile;
+  }
+
+  protected _level: VpxLevel = VpxLevel.UNDEFINED;
+
+  get level(): VpxLevel {
+    return this._level;
+  }
+
+  set level(level: VpxLevel) {
+    this._level = level;
+  }
+
+  protected _bitDepth: VpxBitDepth = VpxBitDepth.UNSET;
+
+  get bitDepth(): VpxBitDepth {
+    return this._bitDepth;
+  }
+
+  set bitDepth(bitDepth: VpxBitDepth) {
+
+    const bitDepthLimits = bitDepthLimitations[bitDepth];
+    if (!bitDepthLimits.includes(this._profile)) {
+      throw new Error(`Bit depth ${bitDepth} is not compatible with profile ${this._profile}`);
+    }
+    this._bitDepth = bitDepth;
+  }
+
+  protected _chromaSubsampling: VpxChromaSubsampling = VPX_DEFAULTS.chromaSubsampling;
+
+  get chromaSubsampling(): VpxChromaSubsampling {
+    return this._chromaSubsampling;
+  }
+
+  set chromaSubsampling(chromaSubsampling: VpxChromaSubsampling) {
+
+    const chromaSubsamplingLimits = chromaSubsamplingLimitations[chromaSubsampling];
+    if (!chromaSubsamplingLimits.includes(this._profile)) {
+      throw new Error(`Chroma subsampling ${chromaSubsampling} is not compatible with profile ${this._profile}`);
+    }
+    this._chromaSubsampling = chromaSubsampling;
+  }
+
+  protected _colourPrimaries: ColourPrimaries = VPX_DEFAULTS.colourPrimaries;
+
+  get colourPrimaries(): ColourPrimaries {
+    return this._colourPrimaries;
+  }
+
+  set colourPrimaries(colourPrimaries: ColourPrimaries) {
+    this._colourPrimaries = colourPrimaries;
+  }
+
+  protected _transferCharacteristics = VPX_DEFAULTS.transferCharacteristics;
+
+  get transferCharacteristics(): TransferCharacteristics {
+    return this._transferCharacteristics;
+  }
+
+  set transferCharacteristics(transferCharacteristics: TransferCharacteristics) {
+    this._transferCharacteristics = transferCharacteristics;
+  }
+
+  protected _matrixCoefficients = VPX_DEFAULTS.matrixCoefficients;
+
+  get matrixCoefficients(): MatrixCoefficients {
+    return this._matrixCoefficients;
+  }
+
+  set matrixCoefficients(matrixCoefficients: MatrixCoefficients) {
+    this._matrixCoefficients = matrixCoefficients;
+  }
+
+  protected _videoFullRangeFlag = VPX_DEFAULTS.videoFullRangeFlag;
+
+  get videoFullRangeFlag(): VideoFullRangeFlag {
+    return this._videoFullRangeFlag;
+  }
+
+  set videoFullRangeFlag(videoFullRangeFlag: VideoFullRangeFlag) {
+    this._videoFullRangeFlag = videoFullRangeFlag;
   }
 
   toString(skipDefaults = true) {
@@ -76,89 +165,6 @@ export abstract class VpXInfo extends CodecInfo {
         return strRecord;
       })
       .join('.');
-  }
-
-
-  get profile(): VpxProfile {
-    return this._profile;
-  }
-
-  set profile(profile: VpxProfile) {
-
-    const profileLimits = profileLimitations[profile];
-    if (!profileLimits.bitDepth.includes(this._bitDepth)) {
-      throw new Error(`Profile ${profile} is not compatible with bit depth ${this._bitDepth}`);
-    }
-    if (!profileLimits.chromaSubsampling.includes(this._chromaSubsampling)) {
-      throw new Error(`Profile ${profile} is not compatible with chroma subsampling ${this._chromaSubsampling}`);
-    }
-    this._profile = profile;
-  }
-
-  get bitDepth(): VpxBitDepth {
-    return this._bitDepth;
-  }
-
-  set bitDepth(bitDepth: VpxBitDepth) {
-
-    const bitDepthLimits = bitDepthLimitations[bitDepth];
-    if (!bitDepthLimits.includes(this._profile)) {
-      throw new Error(`Bit depth ${bitDepth} is not compatible with profile ${this._profile}`);
-    }
-    this._bitDepth = bitDepth;
-  }
-
-  get chromaSubsampling(): VpxChromaSubsampling {
-    return this._chromaSubsampling;
-  }
-
-  set chromaSubsampling(chromaSubsampling: VpxChromaSubsampling) {
-
-    const chromaSubsamplingLimits = chromaSubsamplingLimitations[chromaSubsampling];
-    if (!chromaSubsamplingLimits.includes(this._profile)) {
-      throw new Error(`Chroma subsampling ${chromaSubsampling} is not compatible with profile ${this._profile}`);
-    }
-    this._chromaSubsampling = chromaSubsampling;
-  }
-
-  get level(): VpxLevel {
-    return this._level;
-  }
-
-  set level(level: VpxLevel) {
-    this._level = level;
-  }
-
-  get colourPrimaries(): ColourPrimaries {
-    return this._colourPrimaries;
-  }
-
-  set colourPrimaries(colourPrimaries: ColourPrimaries) {
-    this._colourPrimaries = colourPrimaries;
-  }
-
-  get transferCharacteristics(): TransferCharacteristics {
-    return this._transferCharacteristics;
-  }
-
-  set transferCharacteristics(transferCharacteristics: TransferCharacteristics) {
-    this._transferCharacteristics = transferCharacteristics;
-  }
-
-  get matrixCoefficients(): MatrixCoefficients {
-    return this._matrixCoefficients;
-  }
-
-  set matrixCoefficients(matrixCoefficients: MatrixCoefficients) {
-    this._matrixCoefficients = matrixCoefficients;
-  }
-
-  get videoFullRangeFlag(): VideoFullRangeFlag {
-    return this._videoFullRangeFlag;
-  }
-
-  set videoFullRangeFlag(videoFullRangeFlag: VideoFullRangeFlag) {
-    this._videoFullRangeFlag = videoFullRangeFlag;
   }
 
   protected fromBox(box: string[]) {

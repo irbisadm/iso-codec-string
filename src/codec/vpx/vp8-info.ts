@@ -9,15 +9,15 @@ export class Vp8Info extends VpXInfo {
     super(VpxCodec.VP8);
   }
 
+  get profile() {
+    return this._profile;
+  }
+
   set profile(profile: VpxProfile) {
     if (profile !== VpxProfile.PROFILE_0) {
       throw new Error('VP8 only supports a profile value of 0.');
     }
     super.profile = profile;
-  }
-
-  get profile() {
-    return this._profile;
   }
 
   static fromString(isoString: string) {
