@@ -1,3 +1,3 @@
-export abstract class CodecInfo{
-  codecName:string = 'unk';
+export abstract class CodecInfo {
+  codecName: string = 'unk';
 }

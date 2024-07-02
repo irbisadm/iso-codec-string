@@ -1,6 +1,6 @@
 {
   "name": "@irbisadm/iso-codec-string",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "scripts": {
     "build": "rollup -c",
     "test": "jest"
@@ -11,8 +11,8 @@
     "./readme.md"
   ],
   "private": false,
-  "repository": "https://github.com/irbisadm/super-sort",
-  "bugs": "https://github.com/irbisadm/super-sort/issues",
+  "repository": "https://github.com/irbisadm/iso-codec-string",
+  "bugs": "https://github.com/irbisadm/iso-codec-string/issues",
   "module": "./dist/index.mjs",
   "main": "./dist/index.mjs",
   "types": "./types/index.d.ts",
