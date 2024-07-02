@@ -14,7 +14,7 @@ export enum VpxBitDepth {
 }
 
 export enum VpxLevel {
-  UNDEFINED = '0',
+  UNDEFINED = '00',
   LEVEL_1 = '10',
   LEVEL_1_1 = '11',
   LEVEL_2 = '20',

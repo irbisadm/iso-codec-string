@@ -1,6 +1,7 @@
 import {ColourPrimaries, VideoFullRangeFlag} from "../iso-23001-8_2016";
 import {Vp8Info} from "./vp8-info";
 import {VpxBitDepth, VpxChromaSubsampling, VpxLevel, VpxProfile} from "./enums";
+import {codecInfoFactory, codecInfoFromBox} from "../../index";
 
 describe('VP8 codecs tests', () => {
   it('without settings', () => {
@@ -30,5 +31,19 @@ describe('VP8 codecs tests', () => {
     expect(codecInfo.profile).toBe(VpxProfile.PROFILE_0);
     expect(()=>{codecInfo.profile = VpxProfile.PROFILE_3}).toThrow('VP8 only supports a profile value of 0.');
     expect(codecInfo.profile).toBe(VpxProfile.PROFILE_0);
+  })
+  it('speedtest',()=>{
+    const start = performance.now();
+    for(let i=0;i<1000000;i++){
+      codecInfoFactory('vp09.02.10.10.01.09.16.09.01');
+    }
+    const end = performance.now();
+    const start2 = performance.now();
+    for(let i=0;i<1000000;i++) {
+      codecInfoFromBox('vp09.02.10.10.01.09.16.09.01');
+    }
+    const end2 = performance.now();
+    console.log(`Fancy class ${end-start}`);
+    console.log(`Simple function ${end2-start2}`);
   })
 })
