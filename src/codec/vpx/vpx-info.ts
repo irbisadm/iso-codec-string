@@ -4,6 +4,7 @@ import {ColourPrimaries, MatrixCoefficients, TransferCharacteristics, VideoFullR
 import {VpxBitDepth, VpxChromaSubsampling, VpxLevel, VpxProfile} from "./enums";
 import {VpxCodec} from "./codec";
 import {bitDepthLimitations, chromaSubsamplingLimitations, profileLimitations} from "./limitations";
+import {padStart} from "../pad-start";
 
 const VPX_DEFAULTS = {
   chromaSubsampling: VpxChromaSubsampling.CS_420_COLOCATED_0_0,
@@ -27,7 +28,6 @@ export abstract class VpXInfo extends CodecInfo {
   }
 
   set profile(profile: VpxProfile) {
-
     const profileLimits = profileLimitations[profile];
     if (!profileLimits.bitDepth.includes(this._bitDepth)) {
       throw new Error(`Profile ${profile} is not compatible with bit depth ${this._bitDepth}`);
@@ -55,7 +55,6 @@ export abstract class VpXInfo extends CodecInfo {
   }
 
   set bitDepth(bitDepth: VpxBitDepth) {
-
     const bitDepthLimits = bitDepthLimitations[bitDepth];
     if (!bitDepthLimits.includes(this._profile)) {
       throw new Error(`Bit depth ${bitDepth} is not compatible with profile ${this._profile}`);
@@ -70,7 +69,6 @@ export abstract class VpXInfo extends CodecInfo {
   }
 
   set chromaSubsampling(chromaSubsampling: VpxChromaSubsampling) {
-
     const chromaSubsamplingLimits = chromaSubsamplingLimitations[chromaSubsampling];
     if (!chromaSubsamplingLimits.includes(this._profile)) {
       throw new Error(`Chroma subsampling ${chromaSubsampling} is not compatible with profile ${this._profile}`);
@@ -157,13 +155,7 @@ export abstract class VpXInfo extends CodecInfo {
     isoParts.push(this.codecGeneration);
     return isoParts
       .reverse()
-      .map(record => {
-        const strRecord = record.toString();
-        if (strRecord.length < 2) {
-          return '0' + strRecord;
-        }
-        return strRecord;
-      })
+      .map(record => padStart(record.toString(), 2, '0'))
       .join('.');
   }
 

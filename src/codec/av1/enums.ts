@@ -49,6 +49,6 @@ export enum Av1Level {
 
 export enum Av1Tier {
   UNSET = -1,
-  MAIN = 0,
-  HIGH = 1,
+  MAIN = 'M',
+  HIGH = 'H'
 }
