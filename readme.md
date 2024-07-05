@@ -1,5 +1,14 @@
 # ISO codec string parser
 
+## Supported codecs
+- [x] vp8
+- [x] vp9
+- [x] av1
+- [ ] h264
+- [ ] h265
+
+## Examples
+
 ```ts
 import {codecInfoFactory} from '@irbisadm/iso-codec-string'
 
