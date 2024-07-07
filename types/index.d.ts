@@ -159,6 +159,57 @@ declare namespace vpx_d {
   export { vpx_d_Vp8Info as Vp8Info, vpx_d_Vp9Info as Vp9Info, vpx_d_VpxBitDepth as VpxBitDepth, vpx_d_VpxChromaSubsampling as VpxChromaSubsampling, vpx_d_VpxColourPrimaries as VpxColourPrimaries, vpx_d_VpxLevel as VpxLevel, vpx_d_VpxMatrixCoefficients as VpxMatrixCoefficients, vpx_d_VpxProfile as VpxProfile, vpx_d_VpxTransferCharacteristics as VpxTransferCharacteristics, vpx_d_VpxVideoFullRangeFlag as VpxVideoFullRangeFlag };
 }
 
+declare enum Av1ChromaSamplePosition {
+    UNKNOWN = 0,//Unknown (in this case the source video transfer function must be signaled outside the AV1 bitstream)
+    VERTICAL = 1,// Horizontally co-located with (0, 0) luma sample, vertical position in the middle between two luma samples
+    COLOCATED_WITH_LUMA = 2,// co-located with (0, 0) luma sample
+    RESERVED = 3
+}
+declare enum Av1BitDepth {
+    UNSET = -1,
+    BIT_DEPTH_8 = 8,
+    BIT_DEPTH_10 = 10,
+    BIT_DEPTH_12 = 12
+}
+declare enum Av1Profile {
+    UNSET = -1,
+    MAIN = 0,
+    HIGH = 1,
+    PROFESSIONAL = 2
+}
+declare enum Av1Level {
+    UNSET = -1,
+    LEVEL_2_0 = 0,
+    LEVEL_2_1 = 1,
+    LEVEL_2_2 = 2,
+    LEVEL_2_3 = 3,
+    LEVEL_3_0 = 4,
+    LEVEL_3_1 = 5,
+    LEVEL_3_2 = 6,
+    LEVEL_3_3 = 7,
+    LEVEL_4_0 = 8,
+    LEVEL_4_1 = 9,
+    LEVEL_4_2 = 10,
+    LEVEL_4_3 = 11,
+    LEVEL_5_0 = 12,
+    LEVEL_5_1 = 13,
+    LEVEL_5_2 = 14,
+    LEVEL_5_3 = 15,
+    LEVEL_6_0 = 16,
+    LEVEL_6_1 = 17,
+    LEVEL_6_2 = 18,
+    LEVEL_6_3 = 19,
+    LEVEL_7_0 = 20,
+    LEVEL_7_1 = 21,
+    LEVEL_7_2 = 22,
+    LEVEL_7_3 = 23
+}
+declare enum Av1Tier {
+    UNSET = -1,
+    MAIN = "M",
+    HIGH = "H"
+}
+
 declare abstract class CodecInfo {
     codecName: string;
 }
@@ -224,51 +275,6 @@ declare enum VideoFullRangeFlag {
     FULL = 1
 }
 
-declare enum Av1BitDepth {
-    UNSET = -1,
-    BIT_DEPTH_8 = 8,
-    BIT_DEPTH_10 = 10,
-    BIT_DEPTH_12 = 12
-}
-declare enum Av1Profile {
-    UNSET = -1,
-    MAIN = 0,
-    HIGH = 1,
-    PROFESSIONAL = 2
-}
-declare enum Av1Level {
-    UNSET = -1,
-    LEVEL_2_0 = 0,
-    LEVEL_2_1 = 1,
-    LEVEL_2_2 = 2,
-    LEVEL_2_3 = 3,
-    LEVEL_3_0 = 4,
-    LEVEL_3_1 = 5,
-    LEVEL_3_2 = 6,
-    LEVEL_3_3 = 7,
-    LEVEL_4_0 = 8,
-    LEVEL_4_1 = 9,
-    LEVEL_4_2 = 10,
-    LEVEL_4_3 = 11,
-    LEVEL_5_0 = 12,
-    LEVEL_5_1 = 13,
-    LEVEL_5_2 = 14,
-    LEVEL_5_3 = 15,
-    LEVEL_6_0 = 16,
-    LEVEL_6_1 = 17,
-    LEVEL_6_2 = 18,
-    LEVEL_6_3 = 19,
-    LEVEL_7_0 = 20,
-    LEVEL_7_1 = 21,
-    LEVEL_7_2 = 22,
-    LEVEL_7_3 = 23
-}
-declare enum Av1Tier {
-    UNSET = -1,
-    MAIN = "M",
-    HIGH = "H"
-}
-
 declare class Av1Info extends CodecInfo {
     codecName: string;
     private _profile;
@@ -308,7 +314,23 @@ declare class Av1Info extends CodecInfo {
     static fromString(codecString: string): Av1Info;
 }
 
-declare const version = "0.0.2";
+type index_d_Av1BitDepth = Av1BitDepth;
+declare const index_d_Av1BitDepth: typeof Av1BitDepth;
+type index_d_Av1ChromaSamplePosition = Av1ChromaSamplePosition;
+declare const index_d_Av1ChromaSamplePosition: typeof Av1ChromaSamplePosition;
+type index_d_Av1Info = Av1Info;
+declare const index_d_Av1Info: typeof Av1Info;
+type index_d_Av1Level = Av1Level;
+declare const index_d_Av1Level: typeof Av1Level;
+type index_d_Av1Profile = Av1Profile;
+declare const index_d_Av1Profile: typeof Av1Profile;
+type index_d_Av1Tier = Av1Tier;
+declare const index_d_Av1Tier: typeof Av1Tier;
+declare namespace index_d {
+  export { index_d_Av1BitDepth as Av1BitDepth, index_d_Av1ChromaSamplePosition as Av1ChromaSamplePosition, index_d_Av1Info as Av1Info, index_d_Av1Level as Av1Level, index_d_Av1Profile as Av1Profile, index_d_Av1Tier as Av1Tier };
+}
+
+declare const version = "0.0.4";
 declare const codecInfoFactory: (codecString: string) => Vp8Info | Vp9Info | Av1Info;
 
-export { codecInfoFactory, version, vpx_d as vpx };
+export { CodecInfo, index_d as av1, codecInfoFactory, version, vpx_d as vpx };
