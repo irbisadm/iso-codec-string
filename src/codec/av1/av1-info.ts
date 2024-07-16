@@ -1,6 +1,22 @@
 import {CodecInfo} from "../codec-info";
-import {ColourPrimaries, MatrixCoefficients, TransferCharacteristics, VideoFullRangeFlag} from "../iso-23001-8_2016";
-import {Av1BitDepth, Av1ChromaSamplePosition, Av1Level, Av1Profile, Av1Tier} from "./enums";
+import {
+  ColourPrimaries, hColourPrimaries,
+  hMatrixCoefficients, hTransferCharacteristics, hVideoFullRangeFlag,
+  MatrixCoefficients,
+  TransferCharacteristics,
+  VideoFullRangeFlag,
+} from "../iso-23001-8_2016";
+import {
+  Av1BitDepth,
+  Av1ChromaSamplePosition,
+  Av1Level,
+  Av1Profile,
+  Av1Tier,
+  hTier,
+  hProfile,
+  hLevel,
+  hChromaSamplePosition
+} from "./enums";
 import {padStart} from "../pad-start";
 
 //https://aomediacodec.github.io/av1-spec/av1-spec.pdf#page=2
@@ -149,5 +165,22 @@ export class Av1Info extends CodecInfo {
     
     return info;
 
+  }
+  
+  toHumanReadable(){
+    return {
+      profile: hProfile(this._profile),
+      level: hLevel(this._level),
+      tier: hTier(this.tier),
+      bitDepth: this._bitDepth === -1?'unknown':this._bitDepth.toString(),
+      monochrome:this._monochrome,
+      chromaSubsamplingX: this._chromaSubsamplingX,
+      chromaSubsamplingY: this._chromaSubsamplingY,
+      chromaSamplePosition: hChromaSamplePosition(this._chromaSamplePosition),
+      colourPrimaries: hColourPrimaries(this._colorPrimaries),
+      transferCharacteristics: hTransferCharacteristics(this._transferCharacteristics),
+      matrixCoefficients: hMatrixCoefficients(this.matrixCoefficients),
+      videoFullRangeFlag: hVideoFullRangeFlag(this._videoFullRangeFlag),
+    } as const;
   }
 }

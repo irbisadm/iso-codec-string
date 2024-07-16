@@ -1,7 +1,13 @@
 import {CodecInfo} from "../codec-info";
-import {ColourPrimaries, MatrixCoefficients, TransferCharacteristics, VideoFullRangeFlag} from "../iso-23001-8_2016";
+import {
+  ColourPrimaries,
+  hColourPrimaries, hMatrixCoefficients, hTransferCharacteristics, hVideoFullRangeFlag,
+  MatrixCoefficients,
+  TransferCharacteristics,
+  VideoFullRangeFlag
+} from "../iso-23001-8_2016";
 
-import {VpxBitDepth, VpxChromaSubsampling, VpxLevel, VpxProfile} from "./enums";
+import {hChromaSubsampling, hLevel, VpxBitDepth, VpxChromaSubsampling, VpxLevel, VpxProfile} from "./enums";
 import {VpxCodec} from "./codec";
 import {bitDepthLimitations, chromaSubsamplingLimitations, profileLimitations} from "./limitations";
 import {padStart} from "../pad-start";
@@ -12,6 +18,11 @@ const VPX_DEFAULTS = {
   transferCharacteristics: TransferCharacteristics.BT_709,
   matrixCoefficients: MatrixCoefficients.BT_709,
   videoFullRangeFlag: VideoFullRangeFlag.LEGAL,
+}
+
+function unknownIfNOne(num:number):string{
+  if(num===-1) return 'unknown';
+  return num.toString();
 }
 
 export abstract class VpXInfo extends CodecInfo {
@@ -157,6 +168,20 @@ export abstract class VpXInfo extends CodecInfo {
       .reverse()
       .map(record => padStart(record.toString(), 2, '0'))
       .join('.');
+  }
+
+
+  toHumanReadable(){
+    return {
+      profile: unknownIfNOne(this._profile),
+      level: hLevel(this._level),
+      bitDepth: unknownIfNOne(this._bitDepth),
+      chromaSubsampling: hChromaSubsampling(this._chromaSubsampling),
+      colourPrimaries: hColourPrimaries(this._colourPrimaries),
+      transferCharacteristics: hTransferCharacteristics(this._transferCharacteristics),
+      matrixCoefficients: hMatrixCoefficients(this.matrixCoefficients),
+      videoFullRangeFlag: hVideoFullRangeFlag(this._videoFullRangeFlag),
+    } as const;
   }
 
   protected fromBox(box: string[]) {

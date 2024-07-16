@@ -1,4 +1,4 @@
 export * from './colour-primaries';
 export * from './matrix-coefficients';
 export * from './transfer-characteristics';
-export {VideoFullRangeFlag} from "./video-full-range";
+export * from "./video-full-range";

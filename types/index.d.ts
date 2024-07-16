@@ -212,6 +212,7 @@ declare enum Av1Tier {
 
 declare abstract class CodecInfo {
     codecName: string;
+    abstract toHumanReadable(): Record<string, string | number | boolean>;
 }
 
 declare enum ColourPrimaries {
@@ -312,6 +313,20 @@ declare class Av1Info extends CodecInfo {
     set videoFullRangeFlag(videoFullRangeFlag: VideoFullRangeFlag);
     toString(): string;
     static fromString(codecString: string): Av1Info;
+    toHumanReadable(): {
+        readonly profile: string;
+        readonly level: string;
+        readonly tier: string;
+        readonly bitDepth: string;
+        readonly monochrome: boolean;
+        readonly chromaSubsamplingX: boolean;
+        readonly chromaSubsamplingY: boolean;
+        readonly chromaSamplePosition: string;
+        readonly colourPrimaries: string;
+        readonly transferCharacteristics: string;
+        readonly matrixCoefficients: string;
+        readonly videoFullRangeFlag: string;
+    };
 }
 
 type index_d_Av1BitDepth = Av1BitDepth;
