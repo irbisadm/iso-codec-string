@@ -52,3 +52,59 @@ export enum Av1Tier {
   MAIN = 'M',
   HIGH = 'H'
 }
+
+export function hProfile(profile:Av1Profile):string{
+  switch (profile){
+    case Av1Profile.MAIN: return 'main';
+    case Av1Profile.HIGH: return 'high';
+    case Av1Profile.PROFESSIONAL: return 'professional';
+    default: return 'unknown';
+  }
+}
+
+export function hTier(tier:Av1Tier):string{
+  switch (tier){
+    case Av1Tier.MAIN: return 'main';
+    case Av1Tier.HIGH: return 'high';
+    default: return 'unknown';
+  }
+}
+
+export function hLevel(level:Av1Level):string{
+  switch (level){
+    case Av1Level.LEVEL_2_0: return '2.0';
+    case Av1Level.LEVEL_2_1: return '2.1';
+    case Av1Level.LEVEL_2_2: return '2.2';
+    case Av1Level.LEVEL_2_3: return '2.3';
+    case Av1Level.LEVEL_3_0: return '3.0';
+    case Av1Level.LEVEL_3_1: return '3.1';
+    case Av1Level.LEVEL_3_2: return '3.2';
+    case Av1Level.LEVEL_3_3: return '3.3';
+    case Av1Level.LEVEL_4_0: return '4.0';
+    case Av1Level.LEVEL_4_1: return '4.1';
+    case Av1Level.LEVEL_4_2: return '4.2';
+    case Av1Level.LEVEL_4_3: return '4.3';
+    case Av1Level.LEVEL_5_0: return '5.0';
+    case Av1Level.LEVEL_5_1: return '5.1';
+    case Av1Level.LEVEL_5_2: return '5.2';
+    case Av1Level.LEVEL_5_3: return '5.3';
+    case Av1Level.LEVEL_6_0: return '6.0';
+    case Av1Level.LEVEL_6_1: return '6.1';
+    case Av1Level.LEVEL_6_2: return '6.2';
+    case Av1Level.LEVEL_6_3: return '6.3';
+    case Av1Level.LEVEL_7_0: return '7.0';
+    case Av1Level.LEVEL_7_1: return '7.1';
+    case Av1Level.LEVEL_7_2: return '7.2';
+    case Av1Level.LEVEL_7_3: return '7.3';
+    default: return 'unknown';
+  }
+}
+
+export function hChromaSamplePosition(chromaSamplePosition:Av1ChromaSamplePosition):string{
+  switch (chromaSamplePosition){
+    case Av1ChromaSamplePosition.VERTICAL: return  'vertical';
+    case Av1ChromaSamplePosition.COLOCATED_WITH_LUMA: return  'colocated with luma';
+    case Av1ChromaSamplePosition.RESERVED: return  'reserved';
+    default: return 'unknown';
+  }
+}
