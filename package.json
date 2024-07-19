@@ -1,6 +1,6 @@
 {
   "name": "@irbisadm/iso-codec-string",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "scripts": {
     "build": "rollup -c",
     "test": "jest"
