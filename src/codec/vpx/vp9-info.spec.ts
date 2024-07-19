@@ -51,7 +51,7 @@ const testStringsBuilder = (): string[] => {
   return testSuite;
 }
 
-describe('VP8 codecs tests', () => {
+describe('VP9 codecs tests', () => {
   it('without settings', () => {
     const codecInfo = new Vp9Info();
     expect(codecInfo.profile).toBe(VpxProfile.PROFILE_0);

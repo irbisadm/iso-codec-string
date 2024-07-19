@@ -200,9 +200,21 @@ export abstract class VpXInfo extends CodecInfo {
     }
     if (box[3]) {
       this.bitDepth = parseInt(box[3]) as VpxBitDepth;
+    } else {
+      if(this._profile<=VpxProfile.PROFILE_1){
+        this.bitDepth = VpxBitDepth.BIT_DEPTH_8;
+      } else {
+        this.bitDepth = VpxBitDepth.BIT_DEPTH_10;
+      }
     }
     if (box[4]) {
       this.chromaSubsampling = parseInt(box[4]) as VpxChromaSubsampling;
+    } else {
+      if(this._profile%2) {
+        this.chromaSubsampling = VpxChromaSubsampling.CS_422;
+      } else{
+        this.chromaSubsampling = VpxChromaSubsampling.CS_420_COLOCATED_0_0;
+      }
     }
     if (box[5]) {
       this.colourPrimaries = parseInt(box[5]) as ColourPrimaries;

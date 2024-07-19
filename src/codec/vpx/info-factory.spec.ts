@@ -21,6 +21,10 @@ describe('VpX string parser', () => {
   it('should parse vp9', () => {
     const info = vpxInfoFactory('vp09');
     expect(info.codecName).toBe('vp9');
+    expect(info.profile).toBe(VpxProfile.PROFILE_0);
+    expect(info.level).toBe(VpxLevel.UNDEFINED);
+    expect(info.bitDepth).toBe(VpxBitDepth.BIT_DEPTH_8);
+    expect(info.chromaSubsampling).toBe(VpxChromaSubsampling.CS_420_COLOCATED_0_0);
   })
   it('vp09.02.10.10.01.09.16.09.01', () => {
     const info = vpxInfoFactory('vp09.02.10.10.01.09.16.09.01');
