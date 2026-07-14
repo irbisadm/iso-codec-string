@@ -1,4 +1,4 @@
-import {codecInfoFactory, version, vpx, av1, h264, h265, h266, lcevc, apv, evc, lhevc, mp4, avs3, mpegh, simple, uncv, avs2} from './index';
+import {codecInfoFactory, version, vpx, av1, h264, h265, h266, lcevc, apv, evc, lhevc, mp4, avs3, mpegh, simple, uncv, avs2, stpp} from './index';
 
 describe('codecInfoFactory', () => {
   it('dispatches vp8 strings to Vp8Info', () => {
@@ -122,6 +122,19 @@ describe('codecInfoFactory', () => {
     expect(info).toBeInstanceOf(avs2.Avs2AudioInfo);
     expect(info.codecName).toBe('cavs');
     expect((info as avs2.Avs2AudioInfo).audioCodecId).toBe(1);
+  });
+
+  it('dispatches stpp strings to StppInfo', () => {
+    const info = codecInfoFactory('stpp.ttml.im1t');
+    expect(info).toBeInstanceOf(stpp.StppInfo);
+    expect(info.codecName).toBe('stpp');
+    expect((info as stpp.StppInfo).profile).toBe('im1t');
+  });
+
+  it('dispatches wvtt to SimpleCodecInfo', () => {
+    const info = codecInfoFactory('wvtt');
+    expect(info).toBeInstanceOf(simple.SimpleCodecInfo);
+    expect((info as simple.SimpleCodecInfo).toHumanReadable().codec).toBe('WebVTT');
   });
 
   it('throws on an unknown codec', () => {
