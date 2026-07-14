@@ -2,6 +2,13 @@
 
 This file is generated automatically from [Conventional Commits](https://www.conventionalcommits.org/) by [semantic-release](https://github.com/semantic-release/semantic-release) on every release from `main`.
 
+# [0.6.0](https://github.com/irbisadm/iso-codec-string/compare/v0.5.0...v0.6.0) (2026-07-14)
+
+
+### Features
+
+* add EVC codec string support ([9ed4c8c](https://github.com/irbisadm/iso-codec-string/commit/9ed4c8c5db4db8815e99febab4f1f70e9549ff5c))
+
 # [0.5.0](https://github.com/irbisadm/iso-codec-string/compare/v0.4.0...v0.5.0) (2026-07-14)
 
 
