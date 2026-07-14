@@ -1,4 +1,4 @@
-import {codecInfoFactory, version, vpx, av1, h264, h265, h266} from './index';
+import {codecInfoFactory, version, vpx, av1, h264, h265, h266, lcevc} from './index';
 
 describe('codecInfoFactory', () => {
   it('dispatches vp8 strings to Vp8Info', () => {
@@ -38,6 +38,13 @@ describe('codecInfoFactory', () => {
     expect(info).toBeInstanceOf(h266.H266Info);
     expect(info.codecName).toBe('h266');
     expect((info as h266.H266Info).levelIdc).toBe(83);
+  });
+
+  it('dispatches lvc strings to LcevcInfo', () => {
+    const info = codecInfoFactory('lvc1.vprf0.vlev4');
+    expect(info).toBeInstanceOf(lcevc.LcevcInfo);
+    expect(info.codecName).toBe('lcevc');
+    expect((info as lcevc.LcevcInfo).levelIdc).toBe(4);
   });
 
   it('throws on an unknown codec', () => {
