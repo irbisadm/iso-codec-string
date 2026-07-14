@@ -2,6 +2,13 @@
 
 This file is generated automatically from [Conventional Commits](https://www.conventionalcommits.org/) by [semantic-release](https://github.com/semantic-release/semantic-release) on every release from `main`.
 
+# [0.13.0](https://github.com/irbisadm/iso-codec-string/compare/v0.12.0...v0.13.0) (2026-07-14)
+
+
+### Features
+
+* add AVS2 audio (cavs) codec string support ([be51aa7](https://github.com/irbisadm/iso-codec-string/commit/be51aa752f457efaaaae6bc91f1bdd01d389151a))
+
 # [0.12.0](https://github.com/irbisadm/iso-codec-string/compare/v0.11.0...v0.12.0) (2026-07-14)
 
 
