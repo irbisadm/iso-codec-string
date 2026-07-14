@@ -21,8 +21,9 @@ Useful for reading codec parameters out of a `codecs=` string, checking support 
 | VP8   | ✅    | ✅       |
 | VP9   | ✅    | ✅       |
 | AV1   | ✅    | ✅       |
-| H.264 | ⬜    | ⬜       |
-| H.265 | ⬜    | ⬜       |
+| H.264 (AVC) | ✅ | ✅   |
+| H.265 (HEVC) | ⬜ | ⬜  |
+| H.266 (VVC) | ⬜ | ⬜   |
 
 ## Install
 
@@ -73,12 +74,28 @@ console.log(info.toHumanReadable());
 // { profile: 'main', level: '5.1', tier: 'main', bitDepth: '8', ... }
 ```
 
+### H.264 / AVC
+
+The AVC codec string encodes `profile_idc`, the constraint-set flags, and `level_idc` as three
+hex bytes. Fields are exposed as raw bytes and decoded in `toHumanReadable()`.
+
+```ts
+import { h264 } from '@irbisadm/iso-codec-string';
+
+const info = h264.H264Info.fromString('avc1.640028');
+console.log(info.toHumanReadable().profile); // 'High'
+console.log(info.toHumanReadable().level);   // '4.0'
+console.log(info.toString());                // 'avc1.640028'
+```
+
 ## API
 
-- `codecInfoFactory(codecString)` — dispatches by prefix (`vp08`/`vp8`, `vp09`/`vp9`, `av01`) and
-  returns a `Vp8Info`, `Vp9Info`, or `Av1Info`. Throws `Unknown codec` for anything else.
+- `codecInfoFactory(codecString)` — dispatches by prefix (`vp08`/`vp8`, `vp09`/`vp9`, `av01`,
+  `avc1`/`avc2`/`avc3`/`avc4`) and returns a `Vp8Info`, `Vp9Info`, `Av1Info`, or `H264Info`. Throws
+  `Unknown codec` for anything else.
 - `vpx` — namespace exporting `Vp8Info`, `Vp9Info`, `vpxInfoFactory`, and the `Vpx*` enums.
 - `av1` — namespace exporting `Av1Info` and the `Av1*` enums.
+- `h264` — namespace exporting `H264Info`, `AvcProfileIdc`, and the `hProfile`/`hLevel` helpers.
 - Shared ISO/IEC 23001-8:2016 colour enums (`ColourPrimaries`, `TransferCharacteristics`,
   `MatrixCoefficients`, `VideoFullRangeFlag`) are re-exported from both namespaces.
 
