@@ -1,4 +1,4 @@
-import {codecInfoFactory, version, vpx, av1, h264, h265, h266, lcevc, apv, evc, lhevc, mp4, avs3, mpegh} from './index';
+import {codecInfoFactory, version, vpx, av1, h264, h265, h266, lcevc, apv, evc, lhevc, mp4, avs3, mpegh, simple} from './index';
 
 describe('codecInfoFactory', () => {
   it('dispatches vp8 strings to Vp8Info', () => {
@@ -97,6 +97,16 @@ describe('codecInfoFactory', () => {
     expect(info).toBeInstanceOf(mpegh.MpeghInfo);
     expect(info.codecName).toBe('mpegh');
     expect((info as mpegh.MpeghInfo).profileLevelId).toBe(0x0c);
+  });
+
+  it('dispatches parameterless codecs to SimpleCodecInfo', () => {
+    const opus = codecInfoFactory('opus');
+    expect(opus).toBeInstanceOf(simple.SimpleCodecInfo);
+    expect(opus.codecName).toBe('opus');
+    expect((opus as simple.SimpleCodecInfo).toHumanReadable().codec).toBe('Opus');
+
+    expect(codecInfoFactory('dtsc')).toBeInstanceOf(simple.SimpleCodecInfo);
+    expect(codecInfoFactory('vc-1').codecName).toBe('vc-1');
   });
 
   it('throws on an unknown codec', () => {
