@@ -16,6 +16,8 @@ export const SIMPLE_CODECS: Readonly<Record<string, string>> = {
   'flac': 'FLAC',
   'vorbis': 'Vorbis',
   'alac': 'Apple Lossless (ALAC)',
+  // WebVTT subtitles (parameterless; TTML/stpp is handled separately as it carries a profile)
+  'wvtt': 'WebVTT',
   // PCM variants
   'ipcm': 'Uncompressed PCM',
   'fpcm': 'Floating-point PCM',

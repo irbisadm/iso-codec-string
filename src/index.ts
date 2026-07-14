@@ -13,6 +13,7 @@ import {MpeghInfo} from "./codec/mpegh";
 import {SimpleCodecInfo, isSimpleCodec} from "./codec/simple";
 import {UncvInfo} from "./codec/uncv";
 import {Avs2AudioInfo} from "./codec/avs2";
+import {StppInfo} from "./codec/stpp";
 
 export * as vpx from "./codec/vpx";
 export * as av1 from "./codec/av1";
@@ -29,6 +30,7 @@ export * as mpegh from "./codec/mpegh";
 export * as simple from "./codec/simple";
 export * as uncv from "./codec/uncv";
 export * as avs2 from "./codec/avs2";
+export * as stpp from "./codec/stpp";
 export * from './codec/codec-info';
 
 export const version = '__lib_version__'; // Version will be injected on the build
@@ -78,6 +80,9 @@ export const codecInfoFactory = (codecString: string) => {
   }
   if (codecString.startsWith('uncv') || codecString.startsWith('unci')) {
     return UncvInfo.fromString(codecString);
+  }
+  if (codecString.startsWith('stpp')) {
+    return StppInfo.fromString(codecString);
   }
   if (isSimpleCodec(codecString)) {
     return SimpleCodecInfo.fromString(codecString);
