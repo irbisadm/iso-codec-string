@@ -1,4 +1,4 @@
-import {codecInfoFactory, version, vpx, av1, h264} from './index';
+import {codecInfoFactory, version, vpx, av1, h264, h265} from './index';
 
 describe('codecInfoFactory', () => {
   it('dispatches vp8 strings to Vp8Info', () => {
@@ -24,6 +24,13 @@ describe('codecInfoFactory', () => {
     expect(info).toBeInstanceOf(h264.H264Info);
     expect(info.codecName).toBe('h264');
     expect((info as h264.H264Info).profileIdc).toBe(h264.AvcProfileIdc.HIGH);
+  });
+
+  it('dispatches hev/hvc strings to H265Info', () => {
+    const info = codecInfoFactory('hvc1.1.6.L93.B0');
+    expect(info).toBeInstanceOf(h265.H265Info);
+    expect(info.codecName).toBe('h265');
+    expect((info as h265.H265Info).levelIdc).toBe(93);
   });
 
   it('throws on an unknown codec', () => {
