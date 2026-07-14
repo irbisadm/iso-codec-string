@@ -10,6 +10,7 @@ import {LhevcInfo} from "./codec/lhevc";
 import {Mp4Info} from "./codec/mp4";
 import {Avs3VideoInfo, Avs3AudioInfo} from "./codec/avs3";
 import {MpeghInfo} from "./codec/mpegh";
+import {SimpleCodecInfo, isSimpleCodec} from "./codec/simple";
 
 export * as vpx from "./codec/vpx";
 export * as av1 from "./codec/av1";
@@ -23,6 +24,7 @@ export * as lhevc from "./codec/lhevc";
 export * as mp4 from "./codec/mp4";
 export * as avs3 from "./codec/avs3";
 export * as mpegh from "./codec/mpegh";
+export * as simple from "./codec/simple";
 export * from './codec/codec-info';
 
 export const version = '__lib_version__'; // Version will be injected on the build
@@ -66,6 +68,9 @@ export const codecInfoFactory = (codecString: string) => {
   }
   if (codecString.startsWith('mha') || codecString.startsWith('mhm')) {
     return MpeghInfo.fromString(codecString);
+  }
+  if (isSimpleCodec(codecString)) {
+    return SimpleCodecInfo.fromString(codecString);
   }
   throw new Error('Unknown codec');
 }
