@@ -1,4 +1,4 @@
-import {codecInfoFactory, version, vpx, av1, h264, h265, h266, lcevc, apv, evc, lhevc, mp4} from './index';
+import {codecInfoFactory, version, vpx, av1, h264, h265, h266, lcevc, apv, evc, lhevc, mp4, avs3} from './index';
 
 describe('codecInfoFactory', () => {
   it('dispatches vp8 strings to Vp8Info', () => {
@@ -77,6 +77,19 @@ describe('codecInfoFactory', () => {
     const video = codecInfoFactory('mp4v.20.9');
     expect(video).toBeInstanceOf(mp4.Mp4Info);
     expect(video.codecName).toBe('mp4v');
+  });
+
+  it('dispatches avs3 strings to Avs3VideoInfo', () => {
+    const info = codecInfoFactory('avs3.20.10');
+    expect(info).toBeInstanceOf(avs3.Avs3VideoInfo);
+    expect(info.codecName).toBe('avs3');
+    expect((info as avs3.Avs3VideoInfo).profileId).toBe(0x20);
+  });
+
+  it('dispatches av3a strings to Avs3AudioInfo', () => {
+    const info = codecInfoFactory('av3a.01');
+    expect(info).toBeInstanceOf(avs3.Avs3AudioInfo);
+    expect(info.codecName).toBe('av3a');
   });
 
   it('throws on an unknown codec', () => {

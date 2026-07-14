@@ -8,6 +8,7 @@ import {ApvInfo} from "./codec/apv";
 import {EvcInfo} from "./codec/evc";
 import {LhevcInfo} from "./codec/lhevc";
 import {Mp4Info} from "./codec/mp4";
+import {Avs3VideoInfo, Avs3AudioInfo} from "./codec/avs3";
 
 export * as vpx from "./codec/vpx";
 export * as av1 from "./codec/av1";
@@ -19,6 +20,7 @@ export * as apv from "./codec/apv";
 export * as evc from "./codec/evc";
 export * as lhevc from "./codec/lhevc";
 export * as mp4 from "./codec/mp4";
+export * as avs3 from "./codec/avs3";
 export * from './codec/codec-info';
 
 export const version = '__lib_version__'; // Version will be injected on the build
@@ -53,6 +55,12 @@ export const codecInfoFactory = (codecString: string) => {
   }
   if (codecString.startsWith('mp4a') || codecString.startsWith('mp4v')) {
     return Mp4Info.fromString(codecString);
+  }
+  if (codecString.startsWith('avs3')) {
+    return Avs3VideoInfo.fromString(codecString);
+  }
+  if (codecString.startsWith('av3a')) {
+    return Avs3AudioInfo.fromString(codecString);
   }
   throw new Error('Unknown codec');
 }
