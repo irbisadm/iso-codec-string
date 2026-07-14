@@ -2,6 +2,13 @@
 
 This file is generated automatically from [Conventional Commits](https://www.conventionalcommits.org/) by [semantic-release](https://github.com/semantic-release/semantic-release) on every release from `main`.
 
+# [0.9.0](https://github.com/irbisadm/iso-codec-string/compare/v0.8.0...v0.9.0) (2026-07-14)
+
+
+### Features
+
+* add AVS3 video/audio codec string support ([1a191bd](https://github.com/irbisadm/iso-codec-string/commit/1a191bdac1eec1d97468e7418f8c456ad9a5d27e))
+
 # [0.8.0](https://github.com/irbisadm/iso-codec-string/compare/v0.7.0...v0.8.0) (2026-07-14)
 
 
