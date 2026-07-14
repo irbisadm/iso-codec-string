@@ -2,6 +2,13 @@
 
 This file is generated automatically from [Conventional Commits](https://www.conventionalcommits.org/) by [semantic-release](https://github.com/semantic-release/semantic-release) on every release from `main`.
 
+# [0.5.0](https://github.com/irbisadm/iso-codec-string/compare/v0.4.0...v0.5.0) (2026-07-14)
+
+
+### Features
+
+* add APV codec string support ([bfb5eac](https://github.com/irbisadm/iso-codec-string/commit/bfb5eaccf227bd263ce2b45be0d3ae4af3c80268))
+
 # [0.4.0](https://github.com/irbisadm/iso-codec-string/compare/v0.3.0...v0.4.0) (2026-07-14)
 
 
