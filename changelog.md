@@ -2,6 +2,13 @@
 
 This file is generated automatically from [Conventional Commits](https://www.conventionalcommits.org/) by [semantic-release](https://github.com/semantic-release/semantic-release) on every release from `main`.
 
+# [0.12.0](https://github.com/irbisadm/iso-codec-string/compare/v0.11.0...v0.12.0) (2026-07-14)
+
+
+### Features
+
+* add uncompressed video/image (uncv/unci) codec string support ([cd5cf97](https://github.com/irbisadm/iso-codec-string/commit/cd5cf97b8d9da4b4d487574a27398694c3f24ce0))
+
 # [0.11.0](https://github.com/irbisadm/iso-codec-string/compare/v0.10.0...v0.11.0) (2026-07-14)
 
 
