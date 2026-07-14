@@ -2,6 +2,13 @@
 
 This file is generated automatically from [Conventional Commits](https://www.conventionalcommits.org/) by [semantic-release](https://github.com/semantic-release/semantic-release) on every release from `main`.
 
+# [0.2.0](https://github.com/irbisadm/iso-codec-string/compare/v0.1.0...v0.2.0) (2026-07-14)
+
+
+### Features
+
+* add H.265 (HEVC) codec string support ([95d1935](https://github.com/irbisadm/iso-codec-string/commit/95d1935b745375398e7a0270f762d84b57fdf199))
+
 # [0.1.0](https://github.com/irbisadm/iso-codec-string/compare/v0.0.7...v0.1.0) (2026-07-14)
 
 
