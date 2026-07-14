@@ -32,6 +32,7 @@ Useful for reading codec parameters out of a `codecs=` string, checking support 
 | AVS3 video/audio (avs3/av3a) | ✅ | ✅ |
 | MPEG-H 3D Audio (mha1/mhm1) | ✅ | ✅ |
 | Parameterless (DTS, VC-1, Opus, FLAC, Vorbis, ALAC, PCM) | ✅ | ✅ |
+| Uncompressed (uncv/unci) | ✅ | ✅ |
 
 ## Install
 
@@ -100,11 +101,11 @@ console.log(info.toString());                // 'avc1.640028'
 
 - `codecInfoFactory(codecString)` — dispatches by prefix (`vp08`/`vp8`, `vp09`/`vp9`, `av01`,
   `avc1`/`avc2`/`avc3`/`avc4`, `hev1`/`hvc1`, `vvc1`/`vvi1`, `lvc1`, `apv1`, `evc1`, `lhv1`/`lhe1`,
-  `mp4a`/`mp4v`, `avs3`, `av3a`, `mha1`/`mha2`/`mhm1`/`mhm2`) and returns the matching info object
-  (`Vp8Info`, `Vp9Info`, `Av1Info`, `H264Info`, `H265Info`, `H266Info`, `LcevcInfo`, `ApvInfo`,
-  `EvcInfo`, `LhevcInfo`, `Mp4Info`, `Avs3VideoInfo`, `Avs3AudioInfo`, `MpeghInfo`). Recognised
-  parameterless 4CCs (DTS, VC-1, Opus, FLAC, Vorbis, ALAC, PCM) return a `SimpleCodecInfo`. Throws
-  `Unknown codec` for anything else.
+  `mp4a`/`mp4v`, `avs3`, `av3a`, `mha1`/`mha2`/`mhm1`/`mhm2`, `uncv`/`unci`) and returns the matching
+  info object (`Vp8Info`, `Vp9Info`, `Av1Info`, `H264Info`, `H265Info`, `H266Info`, `LcevcInfo`,
+  `ApvInfo`, `EvcInfo`, `LhevcInfo`, `Mp4Info`, `Avs3VideoInfo`, `Avs3AudioInfo`, `MpeghInfo`,
+  `UncvInfo`). Recognised parameterless 4CCs (DTS, VC-1, Opus, FLAC, Vorbis, ALAC, PCM) return a
+  `SimpleCodecInfo`. Throws `Unknown codec` for anything else.
 - `vpx` — namespace exporting `Vp8Info`, `Vp9Info`, `vpxInfoFactory`, and the `Vpx*` enums.
 - `av1` — namespace exporting `Av1Info` and the `Av1*` enums.
 - `h264` — namespace exporting `H264Info`, `AvcProfileIdc`, and the `hProfile`/`hLevel` helpers.
@@ -132,6 +133,8 @@ console.log(info.toString());                // 'avc1.640028'
 - `simple` — namespace exporting `SimpleCodecInfo` and the `SIMPLE_CODECS` registry for
   parameterless 4CCs (DTS `dtsc`/`dtse`/…, `vc-1`, `opus`, `flac`, `vorbis`, `alac`, and PCM
   variants such as `ipcm`/`fpcm`/`twos`/`sowt`).
+- `uncv` — namespace exporting `UncvInfo` for uncompressed video/images (`uncv`/`unci`), with an
+  optional profile 4CC (`uncv.rgba`, `uncv.i420`, …) decoded to a pixel-format description.
 - Shared ISO/IEC 23001-8:2016 colour enums (`ColourPrimaries`, `TransferCharacteristics`,
   `MatrixCoefficients`, `VideoFullRangeFlag`) are re-exported from both namespaces.
 

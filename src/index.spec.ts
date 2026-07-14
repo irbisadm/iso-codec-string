@@ -1,4 +1,4 @@
-import {codecInfoFactory, version, vpx, av1, h264, h265, h266, lcevc, apv, evc, lhevc, mp4, avs3, mpegh, simple} from './index';
+import {codecInfoFactory, version, vpx, av1, h264, h265, h266, lcevc, apv, evc, lhevc, mp4, avs3, mpegh, simple, uncv} from './index';
 
 describe('codecInfoFactory', () => {
   it('dispatches vp8 strings to Vp8Info', () => {
@@ -107,6 +107,14 @@ describe('codecInfoFactory', () => {
 
     expect(codecInfoFactory('dtsc')).toBeInstanceOf(simple.SimpleCodecInfo);
     expect(codecInfoFactory('vc-1').codecName).toBe('vc-1');
+  });
+
+  it('dispatches uncv/unci strings to UncvInfo', () => {
+    const info = codecInfoFactory('uncv.rgba');
+    expect(info).toBeInstanceOf(uncv.UncvInfo);
+    expect(info.codecName).toBe('uncv');
+    expect((info as uncv.UncvInfo).profile).toBe('rgba');
+    expect(codecInfoFactory('uncv')).toBeInstanceOf(uncv.UncvInfo);
   });
 
   it('throws on an unknown codec', () => {
