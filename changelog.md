@@ -2,6 +2,13 @@
 
 This file is generated automatically from [Conventional Commits](https://www.conventionalcommits.org/) by [semantic-release](https://github.com/semantic-release/semantic-release) on every release from `main`.
 
+# [0.14.0](https://github.com/irbisadm/iso-codec-string/compare/v0.13.0...v0.14.0) (2026-07-14)
+
+
+### Features
+
+* add subtitle codec string support (WebVTT wvtt, TTML stpp) ([c474cc1](https://github.com/irbisadm/iso-codec-string/commit/c474cc103ca02bea9c3d482bc520b06e0b4802f9))
+
 # [0.13.0](https://github.com/irbisadm/iso-codec-string/compare/v0.12.0...v0.13.0) (2026-07-14)
 
 
