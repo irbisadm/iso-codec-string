@@ -23,7 +23,11 @@ export class Vp8Info extends VpXInfo {
   static fromString(isoString: string) {
     const box = isoString.split('.');
     const info = new Vp8Info();
-    info.fromBox(box);
+    // A bare "vp8"/"vp08" carries no parameters, so leave the info empty and let
+    // toString() emit the short form. Only a box with actual fields is parsed.
+    if (box.length > 1) {
+      info.fromBox(box);
+    }
     return info;
   }
 }
