@@ -1,4 +1,4 @@
-import {codecInfoFactory, version, vpx, av1, h264, h265, h266, lcevc, apv, evc, lhevc} from './index';
+import {codecInfoFactory, version, vpx, av1, h264, h265, h266, lcevc, apv, evc, lhevc, mp4} from './index';
 
 describe('codecInfoFactory', () => {
   it('dispatches vp8 strings to Vp8Info', () => {
@@ -68,9 +68,20 @@ describe('codecInfoFactory', () => {
     expect((info as lhevc.LhevcInfo).ptl.levelIdc).toBe(120);
   });
 
+  it('dispatches mp4a/mp4v strings to Mp4Info', () => {
+    const audio = codecInfoFactory('mp4a.40.2');
+    expect(audio).toBeInstanceOf(mp4.Mp4Info);
+    expect(audio.codecName).toBe('mp4a');
+    expect((audio as mp4.Mp4Info).objectType).toBe(2);
+
+    const video = codecInfoFactory('mp4v.20.9');
+    expect(video).toBeInstanceOf(mp4.Mp4Info);
+    expect(video.codecName).toBe('mp4v');
+  });
+
   it('throws on an unknown codec', () => {
-    expect(() => codecInfoFactory('mp4a.40.2')).toThrow('Unknown codec');
     expect(() => codecInfoFactory('theora')).toThrow('Unknown codec');
+    expect(() => codecInfoFactory('tx3g')).toThrow('Unknown codec');
   });
 });
 
