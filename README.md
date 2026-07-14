@@ -31,6 +31,7 @@ Useful for reading codec parameters out of a `codecs=` string, checking support 
 | MP4 (mp4a/mp4v — AAC, MP3, MPEG-4/2) | ✅ | ✅ |
 | AVS3 video/audio (avs3/av3a) | ✅ | ✅ |
 | MPEG-H 3D Audio (mha1/mhm1) | ✅ | ✅ |
+| Parameterless (DTS, VC-1, Opus, FLAC, Vorbis, ALAC, PCM) | ✅ | ✅ |
 
 ## Install
 
@@ -99,9 +100,11 @@ console.log(info.toString());                // 'avc1.640028'
 
 - `codecInfoFactory(codecString)` — dispatches by prefix (`vp08`/`vp8`, `vp09`/`vp9`, `av01`,
   `avc1`/`avc2`/`avc3`/`avc4`, `hev1`/`hvc1`, `vvc1`/`vvi1`, `lvc1`, `apv1`, `evc1`, `lhv1`/`lhe1`,
-  `mp4a`/`mp4v`, `avs3`, `av3a`, `mha1`/`mha2`/`mhm1`/`mhm2`) and returns a `Vp8Info`, `Vp9Info`,
-  `Av1Info`, `H264Info`, `H265Info`, `H266Info`, `LcevcInfo`, `ApvInfo`, `EvcInfo`, `LhevcInfo`,
-  `Mp4Info`, `Avs3VideoInfo`, `Avs3AudioInfo`, or `MpeghInfo`. Throws `Unknown codec` for anything else.
+  `mp4a`/`mp4v`, `avs3`, `av3a`, `mha1`/`mha2`/`mhm1`/`mhm2`) and returns the matching info object
+  (`Vp8Info`, `Vp9Info`, `Av1Info`, `H264Info`, `H265Info`, `H266Info`, `LcevcInfo`, `ApvInfo`,
+  `EvcInfo`, `LhevcInfo`, `Mp4Info`, `Avs3VideoInfo`, `Avs3AudioInfo`, `MpeghInfo`). Recognised
+  parameterless 4CCs (DTS, VC-1, Opus, FLAC, Vorbis, ALAC, PCM) return a `SimpleCodecInfo`. Throws
+  `Unknown codec` for anything else.
 - `vpx` — namespace exporting `Vp8Info`, `Vp9Info`, `vpxInfoFactory`, and the `Vpx*` enums.
 - `av1` — namespace exporting `Av1Info` and the `Av1*` enums.
 - `h264` — namespace exporting `H264Info`, `AvcProfileIdc`, and the `hProfile`/`hLevel` helpers.
@@ -126,6 +129,9 @@ console.log(info.toString());                // 'avc1.640028'
   (`av3a.<codec_id>`) for the AVS3 video/audio standard.
 - `mpegh` — namespace exporting `MpeghInfo` (MPEG-H 3D Audio, `mha1`/`mha2`/`mhm1`/`mhm2` + a
   `profileLevelId`, e.g. `mhm1.0c`).
+- `simple` — namespace exporting `SimpleCodecInfo` and the `SIMPLE_CODECS` registry for
+  parameterless 4CCs (DTS `dtsc`/`dtse`/…, `vc-1`, `opus`, `flac`, `vorbis`, `alac`, and PCM
+  variants such as `ipcm`/`fpcm`/`twos`/`sowt`).
 - Shared ISO/IEC 23001-8:2016 colour enums (`ColourPrimaries`, `TransferCharacteristics`,
   `MatrixCoefficients`, `VideoFullRangeFlag`) are re-exported from both namespaces.
 
