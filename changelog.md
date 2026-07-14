@@ -2,6 +2,13 @@
 
 This file is generated automatically from [Conventional Commits](https://www.conventionalcommits.org/) by [semantic-release](https://github.com/semantic-release/semantic-release) on every release from `main`.
 
+# [0.11.0](https://github.com/irbisadm/iso-codec-string/compare/v0.10.0...v0.11.0) (2026-07-14)
+
+
+### Features
+
+* add parameterless codec string support (DTS, VC-1, Opus, FLAC, Vorbis, ALAC, PCM) ([fca2508](https://github.com/irbisadm/iso-codec-string/commit/fca2508e9a983d58f26d71a6e46802aa7ecca928))
+
 # [0.10.0](https://github.com/irbisadm/iso-codec-string/compare/v0.9.0...v0.10.0) (2026-07-14)
 
 
