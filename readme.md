@@ -34,6 +34,7 @@ Useful for reading codec parameters out of a `codecs=` string, checking support 
 | MPEG-H 3D Audio (mha1/mhm1) | ✅ | ✅ |
 | Parameterless (DTS, VC-1, Opus, FLAC, Vorbis, ALAC, PCM) | ✅ | ✅ |
 | Uncompressed (uncv/unci) | ✅ | ✅ |
+| Subtitles (WebVTT wvtt, TTML stpp) | ✅ | ✅ |
 
 ## Install
 
@@ -102,7 +103,7 @@ console.log(info.toString());                // 'avc1.640028'
 
 - `codecInfoFactory(codecString)` — dispatches by prefix (`vp08`/`vp8`, `vp09`/`vp9`, `av01`,
   `avc1`/`avc2`/`avc3`/`avc4`, `hev1`/`hvc1`, `vvc1`/`vvi1`, `lvc1`, `apv1`, `evc1`, `lhv1`/`lhe1`,
-  `mp4a`/`mp4v`, `avs3`, `av3a`, `cavs`, `mha1`/`mha2`/`mhm1`/`mhm2`, `uncv`/`unci`) and returns the matching
+  `mp4a`/`mp4v`, `avs3`, `av3a`, `cavs`, `mha1`/`mha2`/`mhm1`/`mhm2`, `uncv`/`unci`, `stpp`) and returns the matching
   info object (`Vp8Info`, `Vp9Info`, `Av1Info`, `H264Info`, `H265Info`, `H266Info`, `LcevcInfo`,
   `ApvInfo`, `EvcInfo`, `LhevcInfo`, `Mp4Info`, `Avs3VideoInfo`, `Avs3AudioInfo`, `MpeghInfo`,
   `UncvInfo`). Recognised parameterless 4CCs (DTS, VC-1, Opus, FLAC, Vorbis, ALAC, PCM) return a
@@ -130,11 +131,14 @@ console.log(info.toString());                // 'avc1.640028'
 - `avs3` — namespace exporting `Avs3VideoInfo` (`avs3.<profile>.<level>`) and `Avs3AudioInfo`
   (`av3a.<codec_id>`) for the AVS3 video/audio standard.
 - `avs2` — namespace exporting `Avs2AudioInfo` for AVS2 audio (`cavs.<audio_codec_id>`).
+- `stpp` — namespace exporting `StppInfo` for TTML / timed-text subtitles
+  (`stpp[.<mode>[.<profile>]]`, e.g. `stpp.ttml.im1t`), with the TTML profile decoded to a
+  description. WebVTT (`wvtt`) is parameterless and handled by `SimpleCodecInfo`.
 - `mpegh` — namespace exporting `MpeghInfo` (MPEG-H 3D Audio, `mha1`/`mha2`/`mhm1`/`mhm2` + a
   `profileLevelId`, e.g. `mhm1.0c`).
 - `simple` — namespace exporting `SimpleCodecInfo` and the `SIMPLE_CODECS` registry for
-  parameterless 4CCs (DTS `dtsc`/`dtse`/…, `vc-1`, `opus`, `flac`, `vorbis`, `alac`, and PCM
-  variants such as `ipcm`/`fpcm`/`twos`/`sowt`).
+  parameterless 4CCs (DTS `dtsc`/`dtse`/…, `vc-1`, `opus`, `flac`, `vorbis`, `alac`, `wvtt` (WebVTT),
+  and PCM variants such as `ipcm`/`fpcm`/`twos`/`sowt`).
 - `uncv` — namespace exporting `UncvInfo` for uncompressed video/images (`uncv`/`unci`), with an
   optional profile 4CC (`uncv.rgba`, `uncv.i420`, …) decoded to a pixel-format description.
 - Shared ISO/IEC 23001-8:2016 colour enums (`ColourPrimaries`, `TransferCharacteristics`,
