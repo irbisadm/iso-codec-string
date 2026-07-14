@@ -1,4 +1,4 @@
-import {codecInfoFactory, version, vpx, av1} from './index';
+import {codecInfoFactory, version, vpx, av1, h264} from './index';
 
 describe('codecInfoFactory', () => {
   it('dispatches vp8 strings to Vp8Info', () => {
@@ -19,9 +19,16 @@ describe('codecInfoFactory', () => {
     expect((info as av1.Av1Info).profile).toBe(av1.Av1Profile.MAIN);
   });
 
+  it('dispatches avc strings to H264Info', () => {
+    const info = codecInfoFactory('avc1.640028');
+    expect(info).toBeInstanceOf(h264.H264Info);
+    expect(info.codecName).toBe('h264');
+    expect((info as h264.H264Info).profileIdc).toBe(h264.AvcProfileIdc.HIGH);
+  });
+
   it('throws on an unknown codec', () => {
-    expect(() => codecInfoFactory('avc1.640028')).toThrow('Unknown codec');
-    expect(() => codecInfoFactory('hev1.1.6.L93.B0')).toThrow('Unknown codec');
+    expect(() => codecInfoFactory('mp4a.40.2')).toThrow('Unknown codec');
+    expect(() => codecInfoFactory('theora')).toThrow('Unknown codec');
   });
 });
 
