@@ -2,6 +2,13 @@
 
 This file is generated automatically from [Conventional Commits](https://www.conventionalcommits.org/) by [semantic-release](https://github.com/semantic-release/semantic-release) on every release from `main`.
 
+# [0.4.0](https://github.com/irbisadm/iso-codec-string/compare/v0.3.0...v0.4.0) (2026-07-14)
+
+
+### Features
+
+* add LCEVC codec string support ([314eb9d](https://github.com/irbisadm/iso-codec-string/commit/314eb9dfd0eef3f89df814ee36d148ee812d0496))
+
 # [0.3.0](https://github.com/irbisadm/iso-codec-string/compare/v0.2.0...v0.3.0) (2026-07-14)
 
 
