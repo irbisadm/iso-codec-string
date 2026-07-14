@@ -2,6 +2,13 @@
 
 This file is generated automatically from [Conventional Commits](https://www.conventionalcommits.org/) by [semantic-release](https://github.com/semantic-release/semantic-release) on every release from `main`.
 
+# [0.10.0](https://github.com/irbisadm/iso-codec-string/compare/v0.9.0...v0.10.0) (2026-07-14)
+
+
+### Features
+
+* add MPEG-H 3D Audio codec string support ([50253e5](https://github.com/irbisadm/iso-codec-string/commit/50253e5f182b1768e955a987f652407ba3ede0d1))
+
 # [0.9.0](https://github.com/irbisadm/iso-codec-string/compare/v0.8.0...v0.9.0) (2026-07-14)
 
 
