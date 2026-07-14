@@ -1,4 +1,4 @@
-import {codecInfoFactory, version, vpx, av1, h264, h265, h266, lcevc, apv, evc, lhevc, mp4, avs3, mpegh, simple, uncv} from './index';
+import {codecInfoFactory, version, vpx, av1, h264, h265, h266, lcevc, apv, evc, lhevc, mp4, avs3, mpegh, simple, uncv, avs2} from './index';
 
 describe('codecInfoFactory', () => {
   it('dispatches vp8 strings to Vp8Info', () => {
@@ -115,6 +115,13 @@ describe('codecInfoFactory', () => {
     expect(info.codecName).toBe('uncv');
     expect((info as uncv.UncvInfo).profile).toBe('rgba');
     expect(codecInfoFactory('uncv')).toBeInstanceOf(uncv.UncvInfo);
+  });
+
+  it('dispatches cavs strings to Avs2AudioInfo', () => {
+    const info = codecInfoFactory('cavs.01');
+    expect(info).toBeInstanceOf(avs2.Avs2AudioInfo);
+    expect(info.codecName).toBe('cavs');
+    expect((info as avs2.Avs2AudioInfo).audioCodecId).toBe(1);
   });
 
   it('throws on an unknown codec', () => {
