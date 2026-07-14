@@ -110,23 +110,23 @@ export class Av1Info extends CodecInfo {
   }
 
   toString(): string {
-    const isoParts = [];
     //<sample entry 4CC>.<profile>.<level><tier>.<bitDepth>.<monochrome>.<chromaSubsampling>.
     // <colorPrimaries>.<transferCharacteristics>.<matrixCoefficients>.<videoFullRangeFlag>
-    isoParts.push(this._videoFullRangeFlag);
-    isoParts.push(this._matrixCoefficients);
-    isoParts.push(this._transferCharacteristics);
-    isoParts.push(this._colorPrimaries);
-    isoParts.push(this.chromaSubsampling);
-    isoParts.push(this._monochrome ? '1' : '0');
-    isoParts.push(this._bitDepth.toString());
-    isoParts.push(this._level.toString() + this._tier.toString());
-    isoParts.push(this._profile);
-    isoParts.push('av01');
-    return isoParts
-      .reverse()
-      .map(record => padStart(record.toString(), 2, '0'))
-      .join('.');
+    // Field widths per AV1-ISOBMFF spec: profile 1, level 2, tier 1, bitDepth 2,
+    // monochrome 1, chromaSubsampling 3, colour fields 2, videoFullRangeFlag 1.
+    const isoParts = [
+      'av01',
+      this._profile.toString(),
+      padStart(this._level.toString(), 2, '0') + this._tier.toString(),
+      padStart(this._bitDepth.toString(), 2, '0'),
+      this._monochrome ? '1' : '0',
+      this.chromaSubsampling,
+      padStart(this._colorPrimaries.toString(), 2, '0'),
+      padStart(this._transferCharacteristics.toString(), 2, '0'),
+      padStart(this._matrixCoefficients.toString(), 2, '0'),
+      this._videoFullRangeFlag.toString(),
+    ];
+    return isoParts.join('.');
   }
   static fromString(codecString: string): Av1Info {
     const box = codecString.split('.');
