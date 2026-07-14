@@ -27,6 +27,7 @@ Useful for reading codec parameters out of a `codecs=` string, checking support 
 | LCEVC | ✅ | ✅          |
 | APV   | ✅ | ✅          |
 | EVC   | ✅ | ✅          |
+| L-HEVC | ✅ | ✅         |
 
 ## Install
 
@@ -94,9 +95,9 @@ console.log(info.toString());                // 'avc1.640028'
 ## API
 
 - `codecInfoFactory(codecString)` — dispatches by prefix (`vp08`/`vp8`, `vp09`/`vp9`, `av01`,
-  `avc1`/`avc2`/`avc3`/`avc4`, `hev1`/`hvc1`, `vvc1`/`vvi1`, `lvc1`, `apv1`, `evc1`) and returns a
-  `Vp8Info`, `Vp9Info`, `Av1Info`, `H264Info`, `H265Info`, `H266Info`, `LcevcInfo`, `ApvInfo`, or
-  `EvcInfo`. Throws `Unknown codec` for anything else.
+  `avc1`/`avc2`/`avc3`/`avc4`, `hev1`/`hvc1`, `vvc1`/`vvi1`, `lvc1`, `apv1`, `evc1`, `lhv1`/`lhe1`) and
+  returns a `Vp8Info`, `Vp9Info`, `Av1Info`, `H264Info`, `H265Info`, `H266Info`, `LcevcInfo`,
+  `ApvInfo`, `EvcInfo`, or `LhevcInfo`. Throws `Unknown codec` for anything else.
 - `vpx` — namespace exporting `Vp8Info`, `Vp9Info`, `vpxInfoFactory`, and the `Vpx*` enums.
 - `av1` — namespace exporting `Av1Info` and the `Av1*` enums.
 - `h264` — namespace exporting `H264Info`, `AvcProfileIdc`, and the `hProfile`/`hLevel` helpers.
@@ -111,6 +112,9 @@ console.log(info.toString());                // 'avc1.640028'
 - `evc` — namespace exporting `EvcInfo`, `EvcProfile` (MPEG-5 Part 1,
   `evc1.vprf<profile>.vlev<level>`). Mandatory profile/level are decoded; the optional toolset,
   bit-depth and colour parameters are preserved verbatim.
+- `lhevc` — namespace exporting `LhevcInfo` (Layered HEVC — SHVC / MV-HEVC, `lhv1`/`lhe1`). The HEVC
+  profile-tier-level is exposed via `.ptl` (an `H265Info`); the optional scalability field is preserved
+  verbatim in `.scalability`.
 - Shared ISO/IEC 23001-8:2016 colour enums (`ColourPrimaries`, `TransferCharacteristics`,
   `MatrixCoefficients`, `VideoFullRangeFlag`) are re-exported from both namespaces.
 

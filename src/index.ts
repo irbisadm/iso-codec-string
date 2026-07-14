@@ -6,6 +6,7 @@ import {H266Info} from "./codec/h266";
 import {LcevcInfo} from "./codec/lcevc";
 import {ApvInfo} from "./codec/apv";
 import {EvcInfo} from "./codec/evc";
+import {LhevcInfo} from "./codec/lhevc";
 
 export * as vpx from "./codec/vpx";
 export * as av1 from "./codec/av1";
@@ -15,6 +16,7 @@ export * as h266 from "./codec/h266";
 export * as lcevc from "./codec/lcevc";
 export * as apv from "./codec/apv";
 export * as evc from "./codec/evc";
+export * as lhevc from "./codec/lhevc";
 export * from './codec/codec-info';
 
 export const version = '__lib_version__'; // Version will be injected on the build
@@ -43,6 +45,9 @@ export const codecInfoFactory = (codecString: string) => {
   }
   if (codecString.startsWith('evc')) {
     return EvcInfo.fromString(codecString);
+  }
+  if (codecString.startsWith('lhv') || codecString.startsWith('lhe')) {
+    return LhevcInfo.fromString(codecString);
   }
   throw new Error('Unknown codec');
 }
