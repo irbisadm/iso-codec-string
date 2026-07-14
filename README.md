@@ -28,6 +28,7 @@ Useful for reading codec parameters out of a `codecs=` string, checking support 
 | APV   | ✅ | ✅          |
 | EVC   | ✅ | ✅          |
 | L-HEVC | ✅ | ✅         |
+| MP4 (mp4a/mp4v — AAC, MP3, MPEG-4/2) | ✅ | ✅ |
 
 ## Install
 
@@ -95,9 +96,9 @@ console.log(info.toString());                // 'avc1.640028'
 ## API
 
 - `codecInfoFactory(codecString)` — dispatches by prefix (`vp08`/`vp8`, `vp09`/`vp9`, `av01`,
-  `avc1`/`avc2`/`avc3`/`avc4`, `hev1`/`hvc1`, `vvc1`/`vvi1`, `lvc1`, `apv1`, `evc1`, `lhv1`/`lhe1`) and
-  returns a `Vp8Info`, `Vp9Info`, `Av1Info`, `H264Info`, `H265Info`, `H266Info`, `LcevcInfo`,
-  `ApvInfo`, `EvcInfo`, or `LhevcInfo`. Throws `Unknown codec` for anything else.
+  `avc1`/`avc2`/`avc3`/`avc4`, `hev1`/`hvc1`, `vvc1`/`vvi1`, `lvc1`, `apv1`, `evc1`, `lhv1`/`lhe1`,
+  `mp4a`/`mp4v`) and returns a `Vp8Info`, `Vp9Info`, `Av1Info`, `H264Info`, `H265Info`, `H266Info`,
+  `LcevcInfo`, `ApvInfo`, `EvcInfo`, `LhevcInfo`, or `Mp4Info`. Throws `Unknown codec` for anything else.
 - `vpx` — namespace exporting `Vp8Info`, `Vp9Info`, `vpxInfoFactory`, and the `Vpx*` enums.
 - `av1` — namespace exporting `Av1Info` and the `Av1*` enums.
 - `h264` — namespace exporting `H264Info`, `AvcProfileIdc`, and the `hProfile`/`hLevel` helpers.
@@ -115,6 +116,9 @@ console.log(info.toString());                // 'avc1.640028'
 - `lhevc` — namespace exporting `LhevcInfo` (Layered HEVC — SHVC / MV-HEVC, `lhv1`/`lhe1`). The HEVC
   profile-tier-level is exposed via `.ptl` (an `H265Info`); the optional scalability field is preserved
   verbatim in `.scalability`.
+- `mp4` — namespace exporting `Mp4Info` and the OTI helpers (`hObjectTypeIndication`,
+  `hAudioObjectType`). Covers the RFC 6381 `mp4a`/`mp4v` ObjectTypeIndication scheme — AAC, MP3,
+  MPEG-4 Visual, MPEG-2 video/audio and more (`mp4a.40.2`, `mp4a.69`, `mp4v.20.9`, …).
 - Shared ISO/IEC 23001-8:2016 colour enums (`ColourPrimaries`, `TransferCharacteristics`,
   `MatrixCoefficients`, `VideoFullRangeFlag`) are re-exported from both namespaces.
 
