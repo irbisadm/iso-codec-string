@@ -2,6 +2,13 @@
 
 This file is generated automatically from [Conventional Commits](https://www.conventionalcommits.org/) by [semantic-release](https://github.com/semantic-release/semantic-release) on every release from `main`.
 
+# [0.8.0](https://github.com/irbisadm/iso-codec-string/compare/v0.7.0...v0.8.0) (2026-07-14)
+
+
+### Features
+
+* add MP4 (mp4a/mp4v) codec string support ([d73ef9f](https://github.com/irbisadm/iso-codec-string/commit/d73ef9f6ae087e6d7de678ff3b45b479892e16b4))
+
 # [0.7.0](https://github.com/irbisadm/iso-codec-string/compare/v0.6.0...v0.7.0) (2026-07-14)
 
 
