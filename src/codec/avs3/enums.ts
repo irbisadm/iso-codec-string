@@ -2,8 +2,9 @@
 //   avs3.<profile_id>.<level_id>   (video, hex bytes) e.g. avs3.20.10, avs3.32.50
 //   av3a.<audio_codec_id>          (audio, hex byte)  e.g. av3a.00
 
-export type Avs3VideoFourCC = 'avs3';
-export const AVS3_VIDEO_FOUR_CCS: readonly Avs3VideoFourCC[] = ['avs3'];
+// avs3 = regular video track; lav3 = AVS3 "library track" (same profile/level string).
+export type Avs3VideoFourCC = 'avs3' | 'lav3';
+export const AVS3_VIDEO_FOUR_CCS: readonly Avs3VideoFourCC[] = ['avs3', 'lav3'];
 
 export type Avs3AudioFourCC = 'av3a';
 export const AVS3_AUDIO_FOUR_CCS: readonly Avs3AudioFourCC[] = ['av3a'];

@@ -18,6 +18,14 @@ export const SIMPLE_CODECS: Readonly<Record<string, string>> = {
   'alac': 'Apple Lossless (ALAC)',
   // WebVTT subtitles (parameterless; TTML/stpp is handled separately as it carries a profile)
   'wvtt': 'WebVTT',
+  // Other text / caption sample entries
+  'tx3g': '3GPP Timed Text',
+  'c608': 'CEA-608 Closed Captions',
+  'c708': 'CEA-708 Closed Captions',
+  // 3GPP mobile audio and DRA
+  'samr': 'AMR (narrow-band)',
+  'sawb': 'AMR-WB (wide-band)',
+  'dra1': 'DRA Audio',
   // PCM variants
   'ipcm': 'Uncompressed PCM',
   'fpcm': 'Floating-point PCM',

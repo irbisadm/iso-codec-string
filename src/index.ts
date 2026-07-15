@@ -66,7 +66,7 @@ export const codecInfoFactory = (codecString: string) => {
   if (codecString.startsWith('mp4a') || codecString.startsWith('mp4v')) {
     return Mp4Info.fromString(codecString);
   }
-  if (codecString.startsWith('avs3')) {
+  if (codecString.startsWith('avs3') || codecString.startsWith('lav3')) {
     return Avs3VideoInfo.fromString(codecString);
   }
   if (codecString.startsWith('av3a')) {

@@ -79,11 +79,18 @@ describe('codecInfoFactory', () => {
     expect(video.codecName).toBe('mp4v');
   });
 
-  it('dispatches avs3 strings to Avs3VideoInfo', () => {
+  it('dispatches avs3 and lav3 strings to Avs3VideoInfo', () => {
     const info = codecInfoFactory('avs3.20.10');
     expect(info).toBeInstanceOf(avs3.Avs3VideoInfo);
     expect(info.codecName).toBe('avs3');
     expect((info as avs3.Avs3VideoInfo).profileId).toBe(0x20);
+    expect(codecInfoFactory('lav3.20.10').codecName).toBe('lav3');
+  });
+
+  it('dispatches tx3g to SimpleCodecInfo', () => {
+    const info = codecInfoFactory('tx3g');
+    expect(info).toBeInstanceOf(simple.SimpleCodecInfo);
+    expect((info as simple.SimpleCodecInfo).toHumanReadable().codec).toBe('3GPP Timed Text');
   });
 
   it('dispatches av3a strings to Avs3AudioInfo', () => {
@@ -139,7 +146,7 @@ describe('codecInfoFactory', () => {
 
   it('throws on an unknown codec', () => {
     expect(() => codecInfoFactory('theora')).toThrow('Unknown codec');
-    expect(() => codecInfoFactory('tx3g')).toThrow('Unknown codec');
+    expect(() => codecInfoFactory('nope')).toThrow('Unknown codec');
   });
 });
 

@@ -29,10 +29,10 @@ Useful for reading codec parameters out of a `codecs=` string, checking support 
 | EVC   | ✅ | ✅          |
 | L-HEVC | ✅ | ✅         |
 | MP4 (mp4a/mp4v — AAC, MP3, MPEG-4/2) | ✅ | ✅ |
-| AVS3 video/audio (avs3/av3a) | ✅ | ✅ |
+| AVS3 video/audio (avs3/lav3/av3a) | ✅ | ✅ |
 | AVS2 audio (cavs) | ✅ | ✅ |
 | MPEG-H 3D Audio (mha1/mhm1) | ✅ | ✅ |
-| Parameterless (DTS, VC-1, Opus, FLAC, Vorbis, ALAC, PCM) | ✅ | ✅ |
+| Parameterless (DTS, VC-1, Opus, FLAC, Vorbis, ALAC, PCM, AMR, 3GPP text, CEA-608/708, DRA) | ✅ | ✅ |
 | Uncompressed (uncv/unci) | ✅ | ✅ |
 | Subtitles (WebVTT wvtt, TTML stpp) | ✅ | ✅ |
 
@@ -103,7 +103,7 @@ console.log(info.toString());                // 'avc1.640028'
 
 - `codecInfoFactory(codecString)` — dispatches by prefix (`vp08`/`vp8`, `vp09`/`vp9`, `av01`,
   `avc1`/`avc2`/`avc3`/`avc4`, `hev1`/`hvc1`, `vvc1`/`vvi1`, `lvc1`, `apv1`, `evc1`, `lhv1`/`lhe1`,
-  `mp4a`/`mp4v`, `avs3`, `av3a`, `cavs`, `mha1`/`mha2`/`mhm1`/`mhm2`, `uncv`/`unci`, `stpp`) and returns the matching
+  `mp4a`/`mp4v`, `avs3`/`lav3`, `av3a`, `cavs`, `mha1`/`mha2`/`mhm1`/`mhm2`, `uncv`/`unci`, `stpp`) and returns the matching
   info object (`Vp8Info`, `Vp9Info`, `Av1Info`, `H264Info`, `H265Info`, `H266Info`, `LcevcInfo`,
   `ApvInfo`, `EvcInfo`, `LhevcInfo`, `Mp4Info`, `Avs3VideoInfo`, `Avs3AudioInfo`, `MpeghInfo`,
   `UncvInfo`). Recognised parameterless 4CCs (DTS, VC-1, Opus, FLAC, Vorbis, ALAC, PCM) return a
@@ -129,7 +129,7 @@ console.log(info.toString());                // 'avc1.640028'
   `hAudioObjectType`). Covers the RFC 6381 `mp4a`/`mp4v` ObjectTypeIndication scheme — AAC, MP3,
   MPEG-4 Visual, MPEG-2 video/audio and more (`mp4a.40.2`, `mp4a.69`, `mp4v.20.9`, …).
 - `avs3` — namespace exporting `Avs3VideoInfo` (`avs3.<profile>.<level>`) and `Avs3AudioInfo`
-  (`av3a.<codec_id>`) for the AVS3 video/audio standard.
+  (`av3a.<codec_id>`) for the AVS3 video/audio standard. `lav3` (library track) shares the video format.
 - `avs2` — namespace exporting `Avs2AudioInfo` for AVS2 audio (`cavs.<audio_codec_id>`).
 - `stpp` — namespace exporting `StppInfo` for TTML / timed-text subtitles
   (`stpp[.<mode>[.<profile>]]`, e.g. `stpp.ttml.im1t`), with the TTML profile decoded to a
@@ -138,7 +138,7 @@ console.log(info.toString());                // 'avc1.640028'
   `profileLevelId`, e.g. `mhm1.0c`).
 - `simple` — namespace exporting `SimpleCodecInfo` and the `SIMPLE_CODECS` registry for
   parameterless 4CCs (DTS `dtsc`/`dtse`/…, `vc-1`, `opus`, `flac`, `vorbis`, `alac`, `wvtt` (WebVTT),
-  and PCM variants such as `ipcm`/`fpcm`/`twos`/`sowt`).
+  `tx3g`, `c608`/`c708`, `samr`/`sawb`, `dra1`, and PCM variants such as `ipcm`/`fpcm`/`twos`/`sowt`).
 - `uncv` — namespace exporting `UncvInfo` for uncompressed video/images (`uncv`/`unci`), with an
   optional profile 4CC (`uncv.rgba`, `uncv.i420`, …) decoded to a pixel-format description.
 - Shared ISO/IEC 23001-8:2016 colour enums (`ColourPrimaries`, `TransferCharacteristics`,

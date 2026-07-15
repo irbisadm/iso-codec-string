@@ -26,6 +26,7 @@ export class Avs3VideoInfo extends CodecInfo {
       throw new Error(`Invalid AVS3 video sample entry: ${fourCC}`);
     }
     this._fourCC = fourCC;
+    this.codecName = fourCC;
   }
 
   get profileId(): number {
