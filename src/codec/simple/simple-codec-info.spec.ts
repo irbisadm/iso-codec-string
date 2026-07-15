@@ -5,7 +5,7 @@ describe('SimpleCodecInfo', () => {
     it.each([
       'opus', 'flac', 'vorbis', 'alac',
       'dtsc', 'dtse', 'dtsh', 'dtsl', 'dtsx', 'dtsy',
-      'vc-1', 'wvtt',
+      'vc-1', 'wvtt', 'tx3g', 'c608', 'c708', 'samr', 'sawb', 'dra1',
       'twos', 'sowt', 'lpcm', 'ipcm', 'fpcm', 'in24', 'in32', 'fl32', 'fl64',
     ])('parses and round-trips %s', (str) => {
       expect(SimpleCodecInfo.fromString(str).toString()).toBe(str);
@@ -34,6 +34,9 @@ describe('SimpleCodecInfo', () => {
       ['twos', 'PCM (big-endian)'],
       ['sowt', 'PCM (little-endian)'],
       ['wvtt', 'WebVTT'],
+      ['tx3g', '3GPP Timed Text'],
+      ['samr', 'AMR (narrow-band)'],
+      ['c608', 'CEA-608 Closed Captions'],
     ])('%s -> %s', (str, name) => {
       expect(SimpleCodecInfo.fromString(str).toHumanReadable().codec).toBe(name);
     });

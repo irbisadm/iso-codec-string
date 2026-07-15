@@ -7,8 +7,15 @@ describe('Avs3VideoInfo', () => {
       'avs3.32.50',
       'avs3.22.20',
       'avs3.ab.cd',
+      'lav3.20.10',
     ])('parses and round-trips %s', (str) => {
       expect(Avs3VideoInfo.fromString(str).toString()).toBe(str);
+    });
+
+    it('accepts the lav3 library-track sample entry', () => {
+      const info = Avs3VideoInfo.fromString('lav3.20.10');
+      expect(info.fourCC).toBe('lav3');
+      expect(info.codecName).toBe('lav3');
     });
 
     it('decodes the fields', () => {
