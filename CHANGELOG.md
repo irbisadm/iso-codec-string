@@ -2,6 +2,13 @@
 
 This file is generated automatically from [Conventional Commits](https://www.conventionalcommits.org/) by [semantic-release](https://github.com/semantic-release/semantic-release) on every release from `main`.
 
+# [0.15.0](https://github.com/irbisadm/iso-codec-string/compare/v0.14.0...v0.15.0) (2026-07-15)
+
+
+### Features
+
+* add tx3g, AMR, CEA-608/708, DRA and lav3 codec string support ([b9e144f](https://github.com/irbisadm/iso-codec-string/commit/b9e144fa00934639be495e62049737cd1c08fd32))
+
 # [0.14.0](https://github.com/irbisadm/iso-codec-string/compare/v0.13.0...v0.14.0) (2026-07-14)
 
 
