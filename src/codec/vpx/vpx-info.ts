@@ -59,6 +59,10 @@ export abstract class VpXInfo extends CodecInfo {
   }
 
   set level(level: VpxLevel) {
+    const levels = Object.values(VpxLevel);
+    if (!levels.includes(level)) {
+      throw new Error(`Invalid VPx level ${level}: expected ${levels.join(', ')}`);
+    }
     this._level = level;
   }
 

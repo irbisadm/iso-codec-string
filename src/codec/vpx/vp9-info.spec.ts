@@ -104,6 +104,8 @@ describe('VP9 codecs tests', () => {
     it.each([
       ['vp09.09.51.08', 'Invalid VPx profile 9: expected 0, 1, 2 or 3'],
       ['vp09.xx.51.08', 'Invalid VPx profile NaN: expected 0, 1, 2 or 3'],
+      ['vp09.00.99.08', 'Invalid VPx level 99: expected 00, 10, 11, 20, 21, 30, 31, 40, 41, 50, 51, 52, 60, 61, 62'],
+      ['vp09.00.12.08', 'Invalid VPx level 12: expected 00, 10'],
       ['vp09.00.51.09', 'Invalid VPx bit depth 9: expected 8, 10 or 12'],
       ['vp09.00.51.08.07', 'Invalid VPx chroma subsampling 7: expected 0, 1, 2 or 3'],
     ])('rejects out-of-range values in %s', (str, message) => {
@@ -113,6 +115,7 @@ describe('VP9 codecs tests', () => {
     it('rejects out-of-range values assigned through setters', () => {
       const info = new Vp9Info();
       expect(() => { info.profile = 9 as VpxProfile; }).toThrow('Invalid VPx profile 9');
+      expect(() => { info.level = '99' as VpxLevel; }).toThrow('Invalid VPx level 99');
       expect(() => { info.bitDepth = 9 as VpxBitDepth; }).toThrow('Invalid VPx bit depth 9');
       expect(() => { info.chromaSubsampling = 7 as VpxChromaSubsampling; })
         .toThrow('Invalid VPx chroma subsampling 7');
