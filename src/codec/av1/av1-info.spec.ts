@@ -132,6 +132,32 @@ describe('AV1 codecs tests', () => {
     });
   });
 
+  describe('mandatory fields', () => {
+    // Regression: truncated strings used to parse and serialize with -1 sentinels,
+    // e.g. av01.0.13M -> av01.0.13M.-1.0.000.02.02.02.0
+    it.each([
+      ['av01'],
+      ['av01.0'],
+      ['av01.0.13M'],
+      ['av01..13M.08'],
+      ['av01.0..08'],
+      ['av01.0.13M.'],
+      ['av01.0.13.08'],
+      ['av01.0.M.08'],
+      ['av01.0.13X.08'],
+      ['av01.x.13M.08'],
+      ['av01.0.13M.x'],
+    ])('rejects %s', (str) => {
+      expect(() => Av1Info.fromString(str)).toThrow(
+        'Invalid AV1 codec string, expected av01.<profile>.<level><tier>.<bitDepth>[.fields]'
+      );
+    });
+
+    it('still accepts the shortest legal form', () => {
+      expect(Av1Info.fromString('av01.0.13M.08').bitDepth).toBe(Av1BitDepth.BIT_DEPTH_8);
+    });
+  });
+
   describe('toHumanReadable', () => {
     it('maps every field to a display value', () => {
       const info = Av1Info.fromString('av01.0.13M.08.0.112.01.01.01.0');
