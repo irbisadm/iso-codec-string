@@ -99,6 +99,25 @@ describe('VP9 codecs tests', () => {
         .toThrow('Chroma subsampling 0 is not compatible with profile 1');
     })
 
+    // Regression: values outside the enums used to crash on the limitations
+    // lookup with "Cannot read properties of undefined".
+    it.each([
+      ['vp09.09.51.08', 'Invalid VPx profile 9: expected 0, 1, 2 or 3'],
+      ['vp09.xx.51.08', 'Invalid VPx profile NaN: expected 0, 1, 2 or 3'],
+      ['vp09.00.51.09', 'Invalid VPx bit depth 9: expected 8, 10 or 12'],
+      ['vp09.00.51.08.07', 'Invalid VPx chroma subsampling 7: expected 0, 1, 2 or 3'],
+    ])('rejects out-of-range values in %s', (str, message) => {
+      expect(() => Vp9Info.fromString(str)).toThrow(message);
+    })
+
+    it('rejects out-of-range values assigned through setters', () => {
+      const info = new Vp9Info();
+      expect(() => { info.profile = 9 as VpxProfile; }).toThrow('Invalid VPx profile 9');
+      expect(() => { info.bitDepth = 9 as VpxBitDepth; }).toThrow('Invalid VPx bit depth 9');
+      expect(() => { info.chromaSubsampling = 7 as VpxChromaSubsampling; })
+        .toThrow('Invalid VPx chroma subsampling 7');
+    })
+
     it('rejects a box with more than nine fields', () => {
       expect(() => Vp9Info.fromString('vp09.00.00.08.01.01.01.01.01.00'))
         .toThrow('Invalid box');
