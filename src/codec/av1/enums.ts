@@ -45,6 +45,7 @@ export enum Av1Level {
   LEVEL_7_1 = 21,
   LEVEL_7_2 = 22,
   LEVEL_7_3 = 23,
+  MAX_PARAMETERS = 31,
 }
 
 export enum Av1Tier {
@@ -96,6 +97,7 @@ export function hLevel(level:Av1Level):string{
     case Av1Level.LEVEL_7_1: return '7.1';
     case Av1Level.LEVEL_7_2: return '7.2';
     case Av1Level.LEVEL_7_3: return '7.3';
+    case Av1Level.MAX_PARAMETERS: return 'max parameters';
     default: return 'unknown';
   }
 }

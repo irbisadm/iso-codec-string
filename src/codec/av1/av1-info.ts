@@ -29,12 +29,13 @@ export class Av1Info extends CodecInfo {
   private _tier: Av1Tier = Av1Tier.UNSET;
   private _bitDepth: Av1BitDepth = Av1BitDepth.UNSET;
   private _monochrome: boolean = false;
-  private _chromaSubsamplingX: boolean = false;
-  private _chromaSubsamplingY: boolean = false;
+  // Optional fields default to the AV1-ISOBMFF values: 0.110.01.01.01.0
+  private _chromaSubsamplingX: boolean = true;
+  private _chromaSubsamplingY: boolean = true;
   private _chromaSamplePosition: Av1ChromaSamplePosition = Av1ChromaSamplePosition.UNKNOWN;
-  private _colorPrimaries: ColourPrimaries = ColourPrimaries.UNSPECIFIED
-  private _transferCharacteristics: TransferCharacteristics = TransferCharacteristics.UNSPECIFIED
-  private _matrixCoefficients: MatrixCoefficients = MatrixCoefficients.UNSPECIFIED
+  private _colorPrimaries: ColourPrimaries = ColourPrimaries.BT_709
+  private _transferCharacteristics: TransferCharacteristics = TransferCharacteristics.BT_709
+  private _matrixCoefficients: MatrixCoefficients = MatrixCoefficients.BT_709
   private _videoFullRangeFlag: VideoFullRangeFlag = VideoFullRangeFlag.LEGAL
 
   constructor() {
@@ -45,6 +46,9 @@ export class Av1Info extends CodecInfo {
     return this._profile;
   }
   set profile(profile: Av1Profile) {
+    if (Av1Profile[profile] === undefined) {
+      throw new Error(`Invalid AV1 profile ${profile}: expected 0, 1 or 2`);
+    }
     this._profile = profile;
   }
 
@@ -52,6 +56,9 @@ export class Av1Info extends CodecInfo {
     return this._level;
   }
   set level(level: Av1Level) {
+    if (Av1Level[level] === undefined) {
+      throw new Error(`Invalid AV1 level ${level}: expected 0-23 or 31`);
+    }
     this._level = level;
   }
   get tier(): Av1Tier {
@@ -64,6 +71,9 @@ export class Av1Info extends CodecInfo {
     return this._bitDepth;
   }
   set bitDepth(bitDepth: Av1BitDepth) {
+    if (Av1BitDepth[bitDepth] === undefined) {
+      throw new Error(`Invalid AV1 bit depth ${bitDepth}: expected 8, 10 or 12`);
+    }
     this._bitDepth = bitDepth;
   }
   get monochrome(): boolean {
@@ -129,7 +139,9 @@ export class Av1Info extends CodecInfo {
     return isoParts.join('.');
   }
   static fromString(codecString: string): Av1Info {
-    const box = codecString.split('.');
+    // Per AV1-ISOBMFF, everything from the first character that is not '.', a digit,
+    // part of the 4CC or a tier value is ignored.
+    const box = codecString.replace(/^(av01[.\dMH]*).*/, '$1').split('.');
     const info = new Av1Info();
     //<sample entry 4CC>.<profile>.<level><tier>.<bitDepth>.<monochrome>.<chromaSubsampling>.
     // <colorPrimaries>.<transferCharacteristics>.<matrixCoefficients>.<videoFullRangeFlag>

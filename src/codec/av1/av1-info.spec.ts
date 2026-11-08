@@ -58,9 +58,18 @@ describe('AV1 codecs tests', () => {
     });
 
     it('minimal input expands to the full 10-field form', () => {
-      // toString() always emits every field; missing fields fall back to defaults.
+      // toString() always emits every field; missing fields fall back to the
+      // AV1-ISOBMFF defaults.
       expect(Av1Info.fromString('av01.0.04M.08').toString())
-        .toBe('av01.0.04M.08.0.000.02.02.02.0');
+        .toBe('av01.0.04M.08.0.110.01.01.01.0');
+    });
+
+    it('keeps explicit non-default optional fields', () => {
+      const s = 'av01.0.04M.08.0.000.02.02.02.0';
+      const info = Av1Info.fromString(s);
+      expect(info.chromaSubsampling).toBe('000');
+      expect(info.colorPrimaries).toBe(ColourPrimaries.UNSPECIFIED);
+      expect(info.toString()).toBe(s);
     });
 
     it('high tier round-trips', () => {
@@ -82,7 +91,7 @@ describe('AV1 codecs tests', () => {
       info.level = Av1Level.LEVEL_2_0; // seq_level_idx = 0
       info.tier = Av1Tier.MAIN;
       info.bitDepth = Av1BitDepth.BIT_DEPTH_8;
-      expect(info.toString()).toBe('av01.0.00M.08.0.000.02.02.02.0');
+      expect(info.toString()).toBe('av01.0.00M.08.0.110.01.01.01.0');
     });
 
     it('keeps two-digit levels as-is', () => {
@@ -91,7 +100,7 @@ describe('AV1 codecs tests', () => {
       info.level = Av1Level.LEVEL_6_3; // seq_level_idx = 19
       info.tier = Av1Tier.HIGH;
       info.bitDepth = Av1BitDepth.BIT_DEPTH_12;
-      expect(info.toString()).toBe('av01.2.19H.12.0.000.02.02.02.0');
+      expect(info.toString()).toBe('av01.2.19H.12.0.110.01.01.01.0');
     });
   });
 
@@ -103,7 +112,7 @@ describe('AV1 codecs tests', () => {
       info.tier = Av1Tier.MAIN;
       info.bitDepth = Av1BitDepth.BIT_DEPTH_8;
       info.monochrome = true;
-      expect(info.toString()).toBe('av01.0.13M.08.1.000.02.02.02.0');
+      expect(info.toString()).toBe('av01.0.13M.08.1.110.01.01.01.0');
     });
   });
 
@@ -130,6 +139,15 @@ describe('AV1 codecs tests', () => {
       expect(info.monochrome).toBe(false);
       expect(info.videoFullRangeFlag).toBe(VideoFullRangeFlag.LEGAL);
     });
+
+    // AV1-ISOBMFF: the string SHALL be interpreted ignoring everything from the
+    // first character that is not '.', a digit, part of the 4CC or a tier value.
+    it.each([
+      ['av01.0.13M.08+extra', 'av01.0.13M.08.0.110.01.01.01.0'],
+      ['av01.0.13M.08.0.112.01.01.01.0;x', 'av01.0.13M.08.0.112.01.01.01.0'],
+    ])('ignores the trailing characters of %s', (str, expected) => {
+      expect(Av1Info.fromString(str).toString()).toBe(expected);
+    });
   });
 
   describe('mandatory fields', () => {
@@ -155,6 +173,63 @@ describe('AV1 codecs tests', () => {
 
     it('still accepts the shortest legal form', () => {
       expect(Av1Info.fromString('av01.0.13M.08').bitDepth).toBe(Av1BitDepth.BIT_DEPTH_8);
+    });
+  });
+
+  describe('optional field defaults', () => {
+    // Regression: omitted fields used to read as 4:4:4 with unspecified colour.
+    it.each([
+      ['parsed short form', () => Av1Info.fromString('av01.0.13M.08')],
+      ['new instance', () => new Av1Info()],
+    ])('%s uses the AV1-ISOBMFF defaults', (_name, build) => {
+      const info = build();
+      expect(info.monochrome).toBe(false);
+      expect(info.chromaSubsampling).toBe('110');
+      expect(info.colorPrimaries).toBe(ColourPrimaries.BT_709);
+      expect(info.transferCharacteristics).toBe(TransferCharacteristics.BT_709);
+      expect(info.matrixCoefficients).toBe(MatrixCoefficients.BT_709);
+      expect(info.videoFullRangeFlag).toBe(VideoFullRangeFlag.LEGAL);
+    });
+
+    it('reports 4:2:0 BT.709 in the human-readable form', () => {
+      expect(Av1Info.fromString('av01.0.13M.08').toHumanReadable()).toMatchObject({
+        chromaSubsamplingX: true,
+        chromaSubsamplingY: true,
+        colourPrimaries: 'bt.709',
+        transferCharacteristics: 'bt.709',
+        matrixCoefficients: 'bt.709',
+      });
+    });
+  });
+
+  describe('value ranges', () => {
+    it.each([
+      ['av01.3.13M.08', 'Invalid AV1 profile 3: expected 0, 1 or 2'],
+      ['av01.9.13M.08', 'Invalid AV1 profile 9: expected 0, 1 or 2'],
+      ['av01.0.24M.08', 'Invalid AV1 level 24: expected 0-23 or 31'],
+      ['av01.0.99M.08', 'Invalid AV1 level 99: expected 0-23 or 31'],
+      ['av01.0.13M.09', 'Invalid AV1 bit depth 9: expected 8, 10 or 12'],
+    ])('rejects %s', (str, message) => {
+      expect(() => Av1Info.fromString(str)).toThrow(message);
+    });
+
+    it('rejects out-of-range values assigned through setters', () => {
+      const info = new Av1Info();
+      expect(() => { info.profile = 9 as Av1Profile; }).toThrow('Invalid AV1 profile 9');
+      expect(() => { info.level = 99 as Av1Level; }).toThrow('Invalid AV1 level 99');
+      expect(() => { info.bitDepth = 9 as Av1BitDepth; }).toThrow('Invalid AV1 bit depth 9');
+    });
+
+    it('accepts the maximum parameters level (seq_level_idx 31)', () => {
+      const info = Av1Info.fromString('av01.0.31M.08');
+      expect(info.level).toBe(Av1Level.MAX_PARAMETERS);
+      expect(info.toHumanReadable().level).toBe('max parameters');
+    });
+
+    it('accepts every level from 0 to 23', () => {
+      for (let level = 0; level <= 23; level++) {
+        expect(Av1Info.fromString(`av01.0.${level}M.08`).level).toBe(level);
+      }
     });
   });
 
