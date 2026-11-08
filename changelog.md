@@ -2,6 +2,14 @@
 
 This file is generated automatically from [Conventional Commits](https://www.conventionalcommits.org/) by [semantic-release](https://github.com/semantic-release/semantic-release) on every release from `main`.
 
+## [0.15.1](https://github.com/irbisadm/iso-codec-string/compare/v0.15.0...v0.15.1) (2026-11-08)
+
+
+### Bug Fixes
+
+* **av1:** require the mandatory codec string fields ([ab73bf9](https://github.com/irbisadm/iso-codec-string/commit/ab73bf925c0f261109a135d3dc7027a71b96cdfc))
+* **vpx:** reject out-of-range profile, bit depth and chroma subsampling ([41851eb](https://github.com/irbisadm/iso-codec-string/commit/41851eb17c51d05649bf36078555afa4193d2212))
+
 # [0.15.0](https://github.com/irbisadm/iso-codec-string/compare/v0.14.0...v0.15.0) (2026-07-15)
 
 
