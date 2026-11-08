@@ -133,17 +133,15 @@ export class Av1Info extends CodecInfo {
     const info = new Av1Info();
     //<sample entry 4CC>.<profile>.<level><tier>.<bitDepth>.<monochrome>.<chromaSubsampling>.
     // <colorPrimaries>.<transferCharacteristics>.<matrixCoefficients>.<videoFullRangeFlag>
-    if (box[1]) {
-      info.profile = parseInt(box[1]) as Av1Profile;
+    // Per AV1-ISOBMFF everything up to and including bitDepth is mandatory.
+    if (!/^\d+$/.test(box[1]) || !/^\d+[MH]$/.test(box[2]) || !/^\d+$/.test(box[3])) {
+      throw new Error('Invalid AV1 codec string, expected av01.<profile>.<level><tier>.<bitDepth>[.fields]');
     }
-    if(box[2]) {
-      const levelTier = box[2];
-      info.tier = levelTier[levelTier.length - 1] as Av1Tier;
-      info.level = parseInt(levelTier.substring(0, levelTier.length - 1)) as Av1Level;
-    }
-    if (box[3]) {
-      info.bitDepth = parseInt(box[3]) as Av1BitDepth;
-    }
+    info.profile = parseInt(box[1]) as Av1Profile;
+    const levelTier = box[2];
+    info.tier = levelTier[levelTier.length - 1] as Av1Tier;
+    info.level = parseInt(levelTier.substring(0, levelTier.length - 1)) as Av1Level;
+    info.bitDepth = parseInt(box[3]) as Av1BitDepth;
     if (box[4]) {
       info.monochrome = box[4] === '1';
     }
