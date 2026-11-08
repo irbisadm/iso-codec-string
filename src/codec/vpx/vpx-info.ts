@@ -40,6 +40,9 @@ export abstract class VpXInfo extends CodecInfo {
 
   set profile(profile: VpxProfile) {
     const profileLimits = profileLimitations[profile];
+    if (!profileLimits) {
+      throw new Error(`Invalid VPx profile ${profile}: expected 0, 1, 2 or 3`);
+    }
     if (!profileLimits.bitDepth.includes(this._bitDepth)) {
       throw new Error(`Profile ${profile} is not compatible with bit depth ${this._bitDepth}`);
     }
@@ -67,6 +70,9 @@ export abstract class VpXInfo extends CodecInfo {
 
   set bitDepth(bitDepth: VpxBitDepth) {
     const bitDepthLimits = bitDepthLimitations[bitDepth];
+    if (!bitDepthLimits) {
+      throw new Error(`Invalid VPx bit depth ${bitDepth}: expected 8, 10 or 12`);
+    }
     if (!bitDepthLimits.includes(this._profile)) {
       throw new Error(`Bit depth ${bitDepth} is not compatible with profile ${this._profile}`);
     }
@@ -81,6 +87,9 @@ export abstract class VpXInfo extends CodecInfo {
 
   set chromaSubsampling(chromaSubsampling: VpxChromaSubsampling) {
     const chromaSubsamplingLimits = chromaSubsamplingLimitations[chromaSubsampling];
+    if (!chromaSubsamplingLimits) {
+      throw new Error(`Invalid VPx chroma subsampling ${chromaSubsampling}: expected 0, 1, 2 or 3`);
+    }
     if (!chromaSubsamplingLimits.includes(this._profile)) {
       throw new Error(`Chroma subsampling ${chromaSubsampling} is not compatible with profile ${this._profile}`);
     }
