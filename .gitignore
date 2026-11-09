@@ -212,3 +212,5 @@ dist
 /types
 /build
 
+.idea/
+*.iml
